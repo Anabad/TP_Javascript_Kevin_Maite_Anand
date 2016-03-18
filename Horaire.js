@@ -1,5 +1,8 @@
-/**
- * Created by tom on 18/03/16.
- */
-
-// Commentaire
+class Horaire {
+    /* Toutes les valeurs de la classe sont en minutes */
+    constructor(debut, fin) {
+        this.debut = debut;
+        this.fin = fin;
+    }
+    
+}
