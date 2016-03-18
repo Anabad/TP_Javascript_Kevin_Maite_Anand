@@ -21,7 +21,7 @@ class Horaire {
     }
 }
 
-
+/* Il faudra faire ces tests dans un fichier mocca et chai */
 if (!module.parent) {
     var marchand = new Horaire([500], [1400]);
     var restaurateurB = new Horaire([1100, 1800], [1500, 2300]);
