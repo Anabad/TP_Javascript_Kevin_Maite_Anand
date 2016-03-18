@@ -32,6 +32,7 @@ class Restaurateur {
 
 }
 
+//Gere les stocks
 class Stock{
 
     constructor{
