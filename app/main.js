@@ -1,7 +1,7 @@
 'use strict'
 
-function main() {
-
+function main(){
+    console.log("Nous voila dans le main")
 
 
 }
