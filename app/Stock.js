@@ -6,6 +6,7 @@ var creationTableauVide = require('./fonctionsUtiles.js');
 
 const NOMBRE_INGREDIENT = 10;
 const STOCK_DEPART = 20;
+const SEUIL_CRITIQUE = 5;
 
 
 class Stock {
@@ -25,6 +26,7 @@ class Stock {
     __ravitaillement() {
 
     }
+
     /**             RESTE INGREDIENT
      * Ici le fonction reste ingredient va tester plusieurs choses en fonction de ce qu'on lui donnera
      *   Si:
@@ -35,12 +37,36 @@ class Stock {
      *       - une recette alors la fonction regardera si il reste assez d'ingrédient pour la recette
      *           Il faudra donner en option : "Recette"
      **/
-    __resteIngredient(test,option){
+    __resteIngredient(test, option) {
+        if (test == null) {
+            for (var i = 0; i < this.ingredient.length; i++) {
+                if (!this.__resteIngredientIndice(i)) {
+                    return false;
+                }
+            }
+        }
+        else if (option == "Indice" && typeof test === 'number' && test < this.ingredient.length) {
+            return this.__resteIngredientIndice(test);
+        }
+        else if (option == "Recette") {
+
+        }
+        else {
+            console.log("Parametres mals rentrés")
+        }
+    }
+
+    __resteIngredientIndice(indice) {
+        if (indice <= SEUIL_CRITIQUE) {
+            return false;
+        }
+        return true;
+    }
+
+    __retirerIngredients() {
 
     }
-    __retirerIngredients(){
-        
-    }
+
     afficherStock() {
         for (var i = 0; i < this.ingredient.length; i++) console.log(this.ingredient[i]);
     }
