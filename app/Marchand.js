@@ -6,42 +6,13 @@ function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+class Marchand{
 
-class Restaurateur {
-
-    constructor(horaire) {
-        this.nombreRecette = getRandom(5, 10);
-        this.horaireRestaurateur = horaire;
-
-
+    contructor(){
+        Horaire(500,1400);
     }
 
-    rentreRestaurant() {
-        if (this.horaireRestaurateur.estOuvert(heure)) {
 
-        }
-    }
 
-    ravitaille() {
-        tempsRavitaillement = getRandom(15, 115);
-    }
 }
 
-
-class Stock {
-
-    constructor() {
-        for (i < 0; i < NBINGREDIENTS; i++) {
-            ingredient
-                [i] = getRandom(20, 30);
-            max
-                [i] = ingredient[i];
-        }
-    }
-
-    ravitaille() {
-        for (i < 0; i < NBINGREDIENTS; i++) {
-            ingredient[i] = max[i];
-        }
-    }
-}
