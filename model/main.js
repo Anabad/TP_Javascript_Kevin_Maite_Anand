@@ -5,11 +5,11 @@ const STOCK_DEPART = 20;
 const STOCK_DESIRE = 20;
 
 var Horloge = require('./Horloge.js');
-var Simulation = require('./Simulation.js');
+var Simulation = require('./Model.js');
 
 function main(){
 
-    var simulation = new Simulation();
+    var simulation = new Model();
     simulation.lancer();
 
 }

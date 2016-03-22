@@ -11,7 +11,7 @@ GLOBAL.HORLOGE = require('./main.js');
 const TEMPS_ATTENTE = 2*1000;
 const NOMBRE_MINUTES_HEURES = 100;
 
-module.exports = class Simulation {
+module.exports = class Model {
     constructor() {
         this.restaurants = [];
         this.restaurants.push(new Restaurant(new Horaire([11,18],[15,23])));
