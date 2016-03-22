@@ -1,18 +1,23 @@
 'use strict';
 
-var creationTableauVide = require('./fonctionsUtiles.js');
+var creationTableau = require('./fonctionsUtiles.js').creationTableau;
 
+
+GLOBAL.HORLOGE = require('./main.js');
 // Const créé pour le test
 
+const TEMPS_ATTENTE_MIN_RAVITAILLEMENT = 15;
+const TEMPS_ATTENTE_MAX_RAVITAILLEMENT = 115;
 const NOMBRE_INGREDIENT = 10;
 const STOCK_DEPART = 20;
+const STOCK_DESIRE = 20;
 const SEUIL_CRITIQUE = 5;
 
 
-class Stock {
+
+module.exports = class Stock {
     constructor() {
         this.ingredient = this.__initialiserIngredient();
-        this.afficherStock();
     }
 
     /**
@@ -23,15 +28,14 @@ class Stock {
      * @private
      */
     __initialiserIngredient() {
-        var ingredient = creationTableauVide(NOMBRE_INGREDIENT);
-        for (var i = 0; i < ingredient.length; i++) {
-            ingredient[i] = STOCK_DEPART;
-        }
+        var ingredient = creationTableau(NOMBRE_INGREDIENT,STOCK_DEPART);
         return ingredient;
     }
 
     __ravitaillement() {
-
+        setTimeout(() => {
+            for (var i = 0; i < this.ingredient.length; i++) this.ingredient[i] = STOCK_DESIRE;
+        }, getRandom(TEMPS_ATTENTE_MIN_RAVITAILLEMENT,TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
     }
 
     /**
@@ -51,16 +55,16 @@ class Stock {
      * @returns {boolean}
      * @private
      */
-    __resteIngredient(test, option) {
+    __resteAssezIngredient(test, option) {
         if (test == null) {
             for (var i = 0; i < this.ingredient.length; i++) {
-                if (!this.__resteIngredientIndice(i, SEUIL_CRITIQUE)) {
+                if (!this.__resteAssezIngredientIndice(i, SEUIL_CRITIQUE)) {
                     return false;
                 }
             }
         }
         else if (option == "Indice" && typeof test === 'number' && test < this.ingredient.length) {
-            return this.__resteIngredientIndice(test);
+            return this.__resteAssezIngredientIndice(test);
         }
         else if (option == "Recette") {
 
@@ -81,7 +85,7 @@ class Stock {
      * @returns {boolean}
      * @private
      */
-    __resteIngredientIndice(indice, valeur) {
+    __resteAssezIngredientIndice(indice, valeur) {
         if (indice <= valeur) {
             return false;
         }
@@ -102,11 +106,12 @@ class Stock {
      * @private
      */
     retirerIngredients(recette) {
-        if (!this.__resteIngredient(recette, "Recette")) return false;
+        //if (recette !== '[object Array]') throw "Mauvais type rentré";
+        if (!this.__resteAssezIngredient(recette, "Recette")) return false;
 
         for (var i = 0; i < this.ingredient.length; i++) this.ingredient[i] -= recette[i];
         return true;
-        if (!this.__resteIngredient(null, null)) this.__ravitaillement();
+        if (!this.__resteAssezIngredient(null, null)) this.__ravitaillement();
     }
 
     /**
@@ -117,9 +122,4 @@ class Stock {
     afficherStock() {
         for (var i = 0; i < this.ingredient.length; i++) console.log(this.ingredient[i]);
     }
-
 }
-
-// Petit test
-var s = new Stock();
-s.afficherStock();
