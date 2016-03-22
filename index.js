@@ -1,7 +1,7 @@
 /**
  * Created by tom on 22/03/16.
  */
-var app = require('app');
+var app = require('model');
 var BrowserWindow = require('browser-window');
 
 app.on('ready',function(){
@@ -9,6 +9,5 @@ app.on('ready',function(){
         width:400,
         height:600
     })
-    console.log('file://'+ __dirname + '/index.html');
-    mainWindows.loadURL('file://'+ __dirname + '/index.html');
+    mainWindows.loadURL('file://'+ __dirname + '/view/index.html');
 })

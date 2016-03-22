@@ -10,7 +10,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     watch: {
       js: {
-        files: ['app/*.js'],
+        files: ['model/*.js'],
         tasks: ['jshint:js', 'jscs:js', 'execute:js']
       }
     },
@@ -20,17 +20,17 @@ module.exports = function(grunt) {
         jshintrc: true
       },
       js: {
-        src: ['app/*.js']
+        src: ['model/*.js']
       }
     },
     jscs: {
       js: {
-        src: ['app/*.js']
+        src: ['model/*.js']
       }
     },
     execute: {
       js: {
-        src: ['app/index.js'] // change it by you filename (for the final
+        src: ['model/index.js'] // change it by you filename (for the final
                               // program use main or index)
       }
     }
