@@ -6,13 +6,15 @@ var Client = require('./Client.js');
 var Horaire = require('./Horaire.js');
 var getRandom = require('./fonctionsUtiles.js').getRandom;
 
-GLOBAL.HORLOGE = require('./main.js');
+GLOBAL.HORLOGE = require('../index.js');
 
 const TEMPS_ATTENTE = 2*1000;
 const NOMBRE_MINUTES_HEURES = 100;
 
 module.exports = class Model {
-    constructor() {
+    constructor(controleur) {
+        this.controleur=controleur;
+        this.controleur.setModel(this);
         this.restaurants = [];
         this.restaurants.push(new Restaurant(new Horaire([11,18],[15,23])));
         this.restaurants.push(new Restaurant(new Horaire([1],[23])));
@@ -21,6 +23,7 @@ module.exports = class Model {
     }
 
     lancer() {
+        console.log("On est la");
         GLOBAL.HORLOGE.lancerHorloge();
         GLOBAL.HORLOGE.signal.on('5Minutes', (minute) => this.__creationClient());
         GLOBAL.HORLOGE.signal.on('Heure', (heure) => console.log(`il est ${heure} heure au marché`));

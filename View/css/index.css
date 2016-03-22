@@ -7,7 +7,9 @@ html,body{
 
 body {
     position: relative;
-    background-image: url(IMAGES/fondRestaurant.jpg);
+    background-image: url(../IMAGES/fondRestaurant.jpg);
+    background-size:100% 100%;
+
 }
 
 #centralDiv {

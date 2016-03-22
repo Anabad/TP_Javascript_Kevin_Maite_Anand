@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/index.css"/>
+    <title>Lancer Simulation</title>
+    <script>
+        function lancerSimulation() {
+            console.log("On est la");
+            GLOBAL.model = require('../indexe.js');
+            GLOBAL.model.lancer();
+            window.location = "html/affichageSimulation.html";
+        }
+    </script>
+</head>
+
+<body>
+<div id="centralDiv">
+    <button onclick="lancerSimulation()">Lancer simulation</button>
+</div>
+
+</body>
+</html>

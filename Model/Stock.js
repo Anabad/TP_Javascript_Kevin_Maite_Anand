@@ -3,7 +3,7 @@
 var creationTableau = require('./fonctionsUtiles.js').creationTableau;
 
 
-GLOBAL.HORLOGE = require('./main.js');
+GLOBAL.HORLOGE = require('../index.js');
 // Const créé pour le test
 
 const TEMPS_ATTENTE_MIN_RAVITAILLEMENT = 15;
