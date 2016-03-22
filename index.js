@@ -6,7 +6,7 @@ var BrowserWindow = require('browser-window');
 
 app.on('ready',function(){
     var mainWindows = new BrowserWindow({
-        width:400,
+        width:800,
         height:600
     })
     mainWindows.loadURL('file://'+ __dirname + '/view/index.html');
