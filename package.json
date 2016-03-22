@@ -1,7 +1,6 @@
 {
   "name": "sample_project",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "devDependencies": {
     "electron-prebuilt": "^0.37.2",
@@ -18,5 +17,15 @@
     "start": "electron ."
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anabad/TP_Javascript_Kevin_Maite_Anand.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Anabad/TP_Javascript_Kevin_Maite_Anand/issues"
+  },
+  "homepage": "https://github.com/Anabad/TP_Javascript_Kevin_Maite_Anand#readme",
+  "description": ""
 }

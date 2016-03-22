@@ -1,7 +1,7 @@
 /**
  * Created by tom on 22/03/16.
  */
-var app = require('model');
+var app = require('app');
 var BrowserWindow = require('browser-window');
 
 app.on('ready',function(){
