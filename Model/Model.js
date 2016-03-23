@@ -11,15 +11,21 @@ GLOBAL.HORLOGE = require('../index.js');
 const TEMPS_ATTENTE = 2*1000;
 const NOMBRE_MINUTES_HEURES = 100;
 
+let instance = null;
+
 module.exports = class Model {
     constructor(controleur) {
-        this.controleur=controleur;
-        this.controleur.setModel(this);
-        this.restaurants = [];
-        this.restaurants.push(new Restaurant(new Horaire([11,18],[15,23])));
-        this.restaurants.push(new Restaurant(new Horaire([1],[23])));
-        this.restaurants.push(new Restaurant(new Horaire([1],[23])));
-        this.clients = [];
+        if(!instance){
+            instance = this;
+            this.controleur=controleur;
+            this.controleur.setModel(this);
+            this.restaurants = [];
+            this.restaurants.push(new Restaurant(new Horaire([11,18],[15,23])));
+            this.restaurants.push(new Restaurant(new Horaire([1],[23])));
+            this.restaurants.push(new Restaurant(new Horaire([1],[23])));
+            this.clients = [];
+        }
+        return instance;
     }
 
     lancer() {

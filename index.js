@@ -8,6 +8,7 @@ var View = require('./View/View.js');
 var Horloge = require('./Model/Horloge.js');
 var Controleur = require('./Controleur/Controleur.js');
 var Model = require('./Model/Model.js');
+var ipc = require("electron").ipcMain
 
 let view;
 let model;
@@ -31,12 +32,19 @@ function main () {
         // when you should delete the corresponding element.
         view = null;
     });
+    ipc.on('lancer', function () {
+        if (view) {
+            view.lancer();
+        }
+    });
+
 }
+
 app.on('ready',main);
 app.on('activate', function () {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (view === null) {
+    if (global.view === null) {
         main();
     }
 });
