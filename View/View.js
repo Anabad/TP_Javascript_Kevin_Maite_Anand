@@ -1,23 +1,15 @@
 'use strict';
 
-var BrowserWindow = require('browser-window');
-var ipc = require("electron").ipcMain;
+const electron = require('electron');
+const BrowserWindow = electron.BrowserWindow;
 
-module.exports = class View {
+module.exports = class View extends BrowserWindow{
     constructor(controleur) {
-        this.controleur = controleur;
-        this.controleur.setView(this);
-        this.mainWindows = null;
-    }
-
-    commencer() {
-        this.mainWindows = new BrowserWindow({
+        super({
             width: 800,
             height: 600
-        })
-        this.mainWindows.loadURL('file://' + __dirname + '/index.html');
-        ipc.on('lancer', function (e) {
-            console.log("Coucou");
-        })
+        });
+        this.controleur = controleur;
+        this.controleur.setView(this);
     }
 }

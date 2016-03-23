@@ -22,6 +22,7 @@ module.exports = class Horloge {
         }, TEMPS_SECONDE*(NOMBRE_MINUTES_HEURES / 5));
     }
 
+    
     arreterHorloge() {
         if(this.interv){
             setTimeout(()=> clearInterval(this.interv),0);

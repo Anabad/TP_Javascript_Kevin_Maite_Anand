@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/index.css"/>
-    <title>Lancer Simulation</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/index.css"/>
+        <title>Lancer Simulation</title>
+    </head>
 
-<body>
-<div id="centralDiv">
-    <button>Lancer simulation</button>
-    <script>
-        var ipc = require("electron").ipcMain ;
-        var btn = document.querySelector('button');
-        btn.addEventListener('click', function (e) {
-            console.log("salut");
-            e.preventDefault();
-            ipc.send('lancer');
-            //window.location = "html/affichageSimulation.html";
-        })
-    </script>
-</div>
-
-</body>
+    <body>
+        <div id="centralDiv">
+            <button onclick="SayHello()">Lancer Simulation</button>
+            <script src="./lancerSimulation.js"></script>
+        </div>
+    </body>
 </html>
