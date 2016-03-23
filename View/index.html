@@ -5,19 +5,21 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/index.css"/>
     <title>Lancer Simulation</title>
-    <script>
-        function lancerSimulation() {
-            console.log("On est la");
-            GLOBAL.model = require('../indexe.js');
-            GLOBAL.model.lancer();
-            window.location = "html/affichageSimulation.html";
-        }
-    </script>
 </head>
 
 <body>
 <div id="centralDiv">
-    <button onclick="lancerSimulation()">Lancer simulation</button>
+    <button>Lancer simulation</button>
+    <script>
+        var ipc = require("electron").ipcMain ;
+        var btn = document.querySelector('button');
+        btn.addEventListener('click', function (e) {
+            console.log("salut");
+            e.preventDefault();
+            ipc.send('lancer');
+            //window.location = "html/affichageSimulation.html";
+        })
+    </script>
 </div>
 
 </body>
