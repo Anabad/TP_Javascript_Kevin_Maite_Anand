@@ -6,7 +6,6 @@ const creationTableau = usefulFunctions.creationTableau;
 const getRandom = usefulFunctions.getRandom;
 usefulFunctions = null;
 
-GLOBAL.HORLOGE = require('../index.js');
 // Const créé pour le test
 
 const TEMPS_ATTENTE_MIN_RAVITAILLEMENT = 15;
@@ -29,7 +28,7 @@ module.exports = class Stock {
    * @returns {*}
    * @private
    */
-  static initialiserIngredient() {
+  initialiserIngredient() {
     return creationTableau(NOMBRE_INGREDIENT, STOCK_DEPART);
   }
 
@@ -86,7 +85,7 @@ module.exports = class Stock {
    * @param valeur
    * @returns {boolean}
    */
-  static resteAssezIngredientIndice(indice, valeur) {
+  resteAssezIngredientIndice(indice, valeur) {
     return (indice >= valeur);
   }
 

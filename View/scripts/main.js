@@ -1,7 +1,8 @@
 'use strict';
 
-const Model = require('./Client');
-const View = require('./Horaire');
+
+var View = require('./scripts/View.js');
+var Model = require('../Model/Model.js');
 
 
 let view;

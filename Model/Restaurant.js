@@ -3,8 +3,7 @@
 var Stock = require('./Stock.js');
 var getRandom = require('./fonctionsUtiles.js').getRandom;
 var creationTableau = require('./fonctionsUtiles.js').creationTableau;
-var remplirTableauAleatoire = require(
-  './fonctionsUtiles.js').remplirTableauAleatoire;
+var remplirTableauAleatoire = require('./fonctionsUtiles.js').remplirTableauAleatoire;
 
 
 const TEMPS_PREPARATION_MIN = 1000; // Correspond à 5 minutes dans notre horloge
@@ -40,7 +39,7 @@ module.exports = class Restaurant {
   __listeRepasDispo() {
     var repasDispo = [];
     for (var i = 0; i < this.recette.length; i++) {
-      if (Stock.resteAssezIngredientIndice(this.recette[i])) {
+      if (this.stock.resteAssezIngredientIndice(this.recette[i])) {
         repasDispo.push(i);
       }
     }
@@ -52,7 +51,7 @@ module.exports = class Restaurant {
       return false;
     }
     for (var i = 0; i < this.recette.length; i++) {
-      if (Stock.resteAssezIngredientIndice(this.recette[i])) {
+      if (this.stock.resteAssezIngredientIndice(this.recette[i])) {
         return true;
       }
     }
@@ -82,4 +81,4 @@ module.exports = class Restaurant {
     // Sinon il ne gagne rien
   }
 };
- 
+
