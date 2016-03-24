@@ -1,3 +1,5 @@
+const exec = require('child_process').exec;
+
 module.exports = function(grunt) {
   'use strict';
 
@@ -9,9 +11,19 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     watch: {
+      options: {
+        livereload: true,
+      },
       js: {
         files: ['Model/*.js'],
-        tasks: ['jshint:js', 'jscs:js', 'execute:js']
+        tasks: ['jshint:js', 'jscs:js']
+      },
+      view: {
+        files: ['View/*.html', 'View/css/*.css', 'View/html/*.html']
+      },
+      viewScripts: {
+        files: ['View/scripts/*.js', 'View/*.js'],
+        tasks: ['jshint:js', 'jscs:js']
       }
     },
     jshint: {
@@ -28,14 +40,19 @@ module.exports = function(grunt) {
         src: ['Model/*.js']
       }
     },
-    execute: {
+    run: {
       js: {
-        src: ['Model/index.js'] // change it by you filename (for the final
-                              // program use main or index)
+        cmd: 'npm start' // change it by you filename (for the final
+        // program use main or index)
       }
     }
   });
 
   grunt.registerTask('default',
-    ['jshint:js', 'jscs:js', 'execute:js', 'watch']);
+    ['jshint:js', 'jscs:js', 'electron', 'watch']);
+
+  grunt.registerTask('electron', function() {
+    exec('npm start');
+    grunt.log.ok('Electron Started');
+  });
 };
