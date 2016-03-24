@@ -19,7 +19,7 @@ const SEUIL_CRITIQUE = 5;
 
 module.exports = class Stock {
   constructor() {
-    this.ingredient = this.__initialiserIngredient();
+    this.ingredient = this.initialiserIngredient();
   }
 
   /**
@@ -29,11 +29,11 @@ module.exports = class Stock {
    * @returns {*}
    * @private
    */
-  static __initialiserIngredient() {
+  static initialiserIngredient() {
     return creationTableau(NOMBRE_INGREDIENT, STOCK_DEPART);
   }
 
-  __ravitaillement() {
+  ravitaillement() {
     setTimeout(() => {
       for (var i = 0; i < this.ingredient.length; i++) {
         this.ingredient[i] = STOCK_DESIRE;
@@ -59,7 +59,7 @@ module.exports = class Stock {
    * @returns {boolean}
    * @private
    */
-  __resteAssezIngredient(test, option) {
+  resteAssezIngredient(test, option) {
     if (!test) {
       for (var i = 0; i < this.ingredient.length; i++) {
         if (!this.resteAssezIngredientIndice(i, SEUIL_CRITIQUE)) {
@@ -114,7 +114,7 @@ module.exports = class Stock {
       this.ingredient[i] -= recette[i];
     }
     return true;
-    // if (!this.resteAssezIngredient(null, null)) this.__ravitaillement();
+    // if (!this.resteAssezIngredient(null, null)) this.ravitaillement();
   }
 
   /**

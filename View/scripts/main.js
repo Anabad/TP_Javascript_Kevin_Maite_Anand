@@ -1,9 +1,14 @@
 'use strict';
 
-const TC = require(`${process.cwd()}/Model/testClass`);
+const Model = require('./Client');
+const View = require('./Horaire');
 
-function lancerSimulation() {
-  console.log('App started');
-  let tc = new TC('bob');
-  tc.identify();
+
+let view;
+let model;
+
+function simulation() {
+  view = new View();
+  model = new Model(view);
+  model.lancer();
 }

@@ -22,17 +22,17 @@ module.exports = class Model {
 
     lancer() {
         this.horloge.lancerHorloge();
-        this.horloge.signal.on('5Minutes', (minute) => this.__creationClient());
+        this.horloge.signal.on('5Minutes', (minute) => this.creationClient());
         this.horloge.signal.on('Heure', (heure) => this.view.setHeure(heure));
 
     }
 
-    __creationClient() {
+    creationClient() {
         this.clients.push(new Client());
-        this.__repartirClient(this.clients[this.clients.length - 1])
+        this.repartirClient(this.clients[this.clients.length - 1])
     }
 
-    __repartirClient(client) {
+    repartirClient(client) {
         var listRestaurantsOuverts = [];
         for (var i = 0; i < this.restaurants.length; i++) {
             if (this.restaurants[i].possibiliterServir(this.horloge.date / (NOMBRE_MINUTES_HEURES / 5))) {
@@ -44,7 +44,7 @@ module.exports = class Model {
             this.restaurants[listRestaurantsOuverts[getRandom(0, listRestaurantsOuverts.length - 1)]].servirClient(client);
         }
         else {
-            setTimeout(()=> this.__repartirClient(client), TEMPS_ATTENTE);
+            setTimeout(()=> this.repartirClient(client), TEMPS_ATTENTE);
         }
     }
 }
