@@ -82,3 +82,4 @@ module.exports = class Restaurant {
     // Sinon il ne gagne rien
   }
 };
+ 
