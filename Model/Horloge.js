@@ -1,7 +1,6 @@
 'use strict';
 
-const NOMBRE_MINUTES_HEURES = 100;
-const TEMPS_SECONDE = 1000;
+const TEMPS_HEURE = 1000;
 
 const EventEmitter = require('events').EventEmitter;
 
@@ -19,11 +18,8 @@ module.exports = class Horloge {
 
   lancerHorloge() {
     this.interv = setInterval(()=> {
-      this.signal.emit('5Minutes', this.date++);
-    }, TEMPS_SECONDE);
-    this.interv = setInterval(()=> {
-      this.signal.emit('Heure', (this.date / (NOMBRE_MINUTES_HEURES / 5)) % 24);
-    }, TEMPS_SECONDE * (NOMBRE_MINUTES_HEURES / 5));
+      this.signal.emit('Heure', this.date++ % 24);
+    }, TEMPS_HEURE);
   }
 
 

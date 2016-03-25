@@ -22,8 +22,6 @@ module.exports = class Model {
 
   lancer() {
     this.view.affichageSimulation();
-    this.horloge.lancerHorloge();
-    this.horloge.signal.on('5Minutes', (minute) => this.creationClient());
     this.horloge.signal.on('Heure', (heure) => console.log('je fais rien'));
 
   }
