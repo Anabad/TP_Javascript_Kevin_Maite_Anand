@@ -62,8 +62,7 @@ module.exports = class Restaurant {
     console.log('on sert un client');
     var choix = client.choixRepas(this.__listeRepasDispo());
     client.attente = getRandom(TEMPS_PREPARATION_MIN, TEMPS_PREPARATION_MAX);
-    setTimeout(()=> this.stock.retirerIngredients(this.recette[choix]),
-      client.attente);
+    setTimeout(()=> this.stock.retirerIngredients(this.recette[choix]), client.attente);
     this.__notationRestaurant(client);
     console.log(this.note);
   }

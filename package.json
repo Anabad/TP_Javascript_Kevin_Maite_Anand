@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Anabad/TP_Javascript_Kevin_Maite_Anand#readme",
   "description": "TODO",
   "devDependencies": {
+    "chalk": "^1.1.1",
     "electron-prebuilt": "^0.37.2"
   }
 }
