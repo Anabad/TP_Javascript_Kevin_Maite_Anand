@@ -9,7 +9,7 @@ module.exports = class Client {
     this.attente = 0;
   }
 
-  choixRepas(listeRepasDispo) {
+  static choixRepas(listeRepasDispo) {
     return getRandom(0, listeRepasDispo.length - 1);
   }
 };

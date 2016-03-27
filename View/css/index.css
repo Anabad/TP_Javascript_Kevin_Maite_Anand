@@ -110,7 +110,7 @@ button {
   text-align:center;
   text-transform: uppercase;
   color: white;
-  background-color:darkgreen;/* quand fermé : firebrick*/
+  background-color:firebrick;/* quand ouvert : darkgreen*/
 }
 
 #statut{

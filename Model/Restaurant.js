@@ -1,5 +1,6 @@
 'use strict';
 
+const Client = require('./Client');
 var Stock = require('./Stock.js');
 var getRandom = require('./fonctionsUtiles.js').getRandom;
 
@@ -40,7 +41,7 @@ module.exports = class Restaurant {
   listeRepasDispo() {
     var repasDispo = [];
     for (var i = 0; i < this.recettes.length; i++) {
-      if (this.stock.resteAssezIngredientIndice(this.recettes[i])) {
+      if (this.stock.resteAssezIngredient(this.recettes[i],'Recette')) {
         repasDispo.push(i);
       }
     }
@@ -62,7 +63,7 @@ module.exports = class Restaurant {
   }
 
   servirClient(client) {
-    var choix = client.choixRepas(this.listeRepasDispo());
+    var choix = Client.choixRepas(this.listeRepasDispo());
     console.log("Choix: "+choix);
     client.attente = getRandom(CST.TEMPS_PREPARATION_MIN, CST.TEMPS_PREPARATION_MAX);
     console.log("Attente: "+client.attente);

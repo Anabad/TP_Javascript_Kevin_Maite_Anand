@@ -1,11 +1,12 @@
 'use strict';
 
+const Horaire = require('../../Model/Horaire.js');
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
 
 module.exports = class View{
   constructor(){
-
+    this.marcherRungis = new Horaire([5],[14]);
   }
   affichageSimulation(){
     var html='';
@@ -17,7 +18,7 @@ module.exports = class View{
     html = html.concat('</thead>');
     html = html.concat('<tbody>');
     html = html.concat('<tr>');
-    html = html.concat('<td id="statut_r"> Ouvert </td>');
+    html = html.concat('<td id="statut_r">Fermé</td>');
     html = html.concat('</tr>');
     html = html.concat('</tbody>');
     html = html.concat('</table>');
@@ -61,14 +62,22 @@ module.exports = class View{
     html = html.concat('</div>');
     html = html.concat('<br><br>');
     document.body.innerHTML = html;
-    //document.write(heure);
   }
 
   setHorloge(heure,minute){
-    var h='';
+    var h;
     heure<10 ? h='0' : h='';
-    var m='';
+    var m;
     minute<10 ? m='0' : m='';
     document.getElementById('horloge').innerHTML = h+heure+':'+m+minute;
+    var elmt = document.getElementById("statut_r");
+    if(this.marcherRungis.estOuvert(heure)){
+      elmt.style.backgroundColor = 'darkgreen';
+      elmt.innerHTML ='Ouvert';
+    }
+    else{
+      elmt.style.backgroundColor = '#b22222';
+      elmt.innerHTML ='Fermé';
+    }
   }
 };

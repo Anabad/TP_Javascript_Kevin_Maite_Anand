@@ -12,7 +12,7 @@ module.exports = class Horaire {
   estOuvert(heure) {
     var test = true;
     for (var i = 0; i < this.debut.length; i++) {
-      if (heure >= this.debut[i] && heure <= this.fin[i]) {
+      if (heure >= this.debut[i] && heure < this.fin[i]) {
         return true;
       } else {
         test = false;

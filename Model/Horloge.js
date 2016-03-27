@@ -28,7 +28,6 @@ module.exports = class Horloge {
   }
 
   lancer() {
-    console.log("salut");
     this.interv = setInterval(()=> {
       this.signal.emit('Minute', this.heure, this.modifierDate());
     }, CST.TEMPS_HEURE / CST.NOMBRE_MINUTE_HEURE);

@@ -68,9 +68,6 @@ module.exports = class Stock {
           return false;
         }
       }
-    } else if (option == 'Indice' && typeof test === 'number' &&
-      test < this.ingredients.length) {
-      return this.resteAssezIngredientIndice(test);
     } else if (option == 'Recette') {
       for (var i = 0; i < test.length; i++) {
         if(test[i] == 1 && this.ingredients[i] == 0){

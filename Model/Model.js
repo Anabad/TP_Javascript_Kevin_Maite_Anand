@@ -1,12 +1,12 @@
 'use strict';
 
-var Horloge = require('./Horloge');
+const Horloge = require('./Horloge');
 const Restaurant = require('./Restaurant');
 const Client = require('./Client');
 const Horaire = require('./Horaire');
 const getRandom = require('./fonctionsUtiles').getRandom;
 //var chalk = require('chalk');
-var CST =require('./Constantes');
+var CST = require('./Constantes');
 
 module.exports = class Model {
   constructor(view) {
@@ -23,15 +23,15 @@ module.exports = class Model {
   lancer() {
     this.view.affichageSimulation();
     this.horloge.lancer();
-    this.horloge.signal.on('Minute', (heure,minute) => {
-      //this.creationClient();
-      this.view.setHorloge(heure,minute);
+    this.horloge.signal.on('Minute', (heure, minute) => {
+      this.creationClient();
+      this.view.setHorloge(heure, minute);
     });
   }
 
   creationClient() {
-    var nombreDeClientAAjouter = getRandom(CST.NOMBRE_CLIENT_CREE_MIN, CST.NOMBRE_CLIENT_CREE_MAX);
-    for (var i = 0; i < nombreDeClientAAjouter; i++) {
+    var ajouterClient = getRandom(0, 10);
+    if (ajouterClient == 10) {
       this.clients.push(new Client());
       this.repartirClient(this.clients[this.clients.length - 1]);
     }
@@ -45,7 +45,8 @@ module.exports = class Model {
       }
     }
     else {
-      setTimeout(()=> {this.repartirClient(client)
+      setTimeout(()=> {
+        this.repartirClient(client)
       }, CST.TEMPS_ATTENTE);
     }
   }
