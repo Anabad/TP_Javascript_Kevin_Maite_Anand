@@ -4,7 +4,6 @@
 var View = require('./scripts/View.js');
 var Model = require('../Model/Model.js');
 
-
 let view;
 let model;
 

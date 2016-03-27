@@ -1,10 +1,12 @@
 'use strict';
 
+var Horloge = require('./Horloge');
 // var creationTableau = require('./fonctionsUtiles').creationTableau;
 let usefulFunctions = require('./fonctionsUtiles');
 const creationTableau = usefulFunctions.creationTableau;
 const getRandom = usefulFunctions.getRandom;
 usefulFunctions = null;
+
 
 // Const créé pour le test
 

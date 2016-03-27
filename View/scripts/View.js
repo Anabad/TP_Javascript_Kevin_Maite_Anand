@@ -64,9 +64,11 @@ module.exports = class View{
     //document.write(heure);
   }
 
-  setHorloge(heure){
-    var h="";
-    heure<10 ? h="0" : h="";
-    document.getElementById("horloge").innerHTML = h+heure+":00";
+  setHorloge(heure,minute){
+    var h='';
+    heure<10 ? h='0' : h='';
+    var m='';
+    minute<10 ? m='0' : m='';
+    document.getElementById('horloge').innerHTML = h+heure+':'+m+minute;
   }
 };

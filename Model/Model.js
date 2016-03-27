@@ -6,7 +6,6 @@ const Client = require('./Client');
 const Horaire = require('./Horaire');
 const getRandom = require('./fonctionsUtiles').getRandom;
 //var chalk = require('chalk');
-
 var CST =require('./Constantes');
 
 module.exports = class Model {
@@ -24,15 +23,13 @@ module.exports = class Model {
   lancer() {
     this.view.affichageSimulation();
     this.horloge.lancer();
-    this.horloge.signal.on('Heure', (heure) => {
-      this.creationClient();
-      this.view.setHorloge(heure);
+    this.horloge.signal.on('Minute', (heure,minute) => {
+      //this.creationClient();
+      this.view.setHorloge(heure,minute);
     });
-
   }
 
   creationClient() {
-    console.log('Il est ' + this.horloge.date + 'h');
     var nombreDeClientAAjouter = getRandom(CST.NOMBRE_CLIENT_CREE_MIN, CST.NOMBRE_CLIENT_CREE_MAX);
     for (var i = 0; i < nombreDeClientAAjouter; i++) {
       this.clients.push(new Client());
@@ -43,7 +40,7 @@ module.exports = class Model {
   repartirClient(client) {
     if (this.restaurants.length != 0) {
       var restaurantChoisi = this.restaurants[[getRandom(0, this.restaurants.length - 1)]];
-      if (restaurantChoisi.possibiliterServir(this.horloge.date)) {
+      if (restaurantChoisi.possibiliterServir(this.horloge.heure)) {
         restaurantChoisi.servirClient(client);
       }
     }
