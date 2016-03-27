@@ -1,14 +1,15 @@
 'use strict';
 
 var getRandom = require('./fonctionsUtiles.js').getRandom;
+var CST =require('./Constantes');
 
 module.exports = class Client {
   constructor() {
-    this.seuilDeResistance = getRandom(10, 40);
+    this.seuilDeResistance = getRandom(CST.SEUIL_RESISTANCE_MIN, CST.SEUIL_RESISTANCE_MAX);
     this.attente = 0;
   }
 
-  static choixRepas(listeRepasDispo) {
+  choixRepas(listeRepasDispo) {
     return getRandom(0, listeRepasDispo.length - 1);
   }
 };

@@ -6,9 +6,9 @@ var getRandom = function(min, max) {
 };
 
 var creationTableau = function(taille, valeur) {
-  var tab = [];
-  for (var i = 0; i < taille; i++) {
-    tab.push(valeur);
+  var tab = new Array(taille);
+  for (var i = 0; i < tab.length; i++) {
+    tab[i]=valeur;
   }
   return tab;
 };

@@ -12,7 +12,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     watch: {
       options: {
-        livereload: true,
+        livereload: true
       },
       js: {
         files: ['Model/*.js'],
@@ -38,12 +38,6 @@ module.exports = function(grunt) {
     jscs: {
       js: {
         src: ['Model/*.js']
-      }
-    },
-    run: {
-      js: {
-        cmd: 'npm start' // change it by you filename (for the final
-        // program use main or index)
       }
     }
   });

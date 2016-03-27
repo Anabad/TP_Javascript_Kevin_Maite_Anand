@@ -18,7 +18,8 @@ const SEUIL_CRITIQUE = 5;
 
 module.exports = class Stock {
   constructor() {
-    this.ingredient = this.initialiserIngredient();
+    this.ingredients = this.initialiserIngredient();
+    //this.afficherStock()
   }
 
   /**
@@ -34,8 +35,8 @@ module.exports = class Stock {
 
   ravitaillement() {
     setTimeout(() => {
-      for (var i = 0; i < this.ingredient.length; i++) {
-        this.ingredient[i] = STOCK_DESIRE;
+      for (var i = 0; i < this.ingredients.length; i++) {
+        this.ingredients[i] = STOCK_DESIRE;
       }
     }, getRandom(TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
       TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
@@ -60,16 +61,21 @@ module.exports = class Stock {
    */
   resteAssezIngredient(test, option) {
     if (!test) {
-      for (var i = 0; i < this.ingredient.length; i++) {
+      for (var i = 0; i < this.ingredients.length; i++) {
         if (!this.resteAssezIngredientIndice(i, SEUIL_CRITIQUE)) {
           return false;
         }
       }
     } else if (option == 'Indice' && typeof test === 'number' &&
-      test < this.ingredient.length) {
+      test < this.ingredients.length) {
       return this.resteAssezIngredientIndice(test);
     } else if (option == 'Recette') {
-
+      for (var i = 0; i < test.length; i++) {
+        if(test[i] == 1 && this.ingredients[i] == 0){
+          return false;
+        }
+      }
+      return true;
     } else {
       console.log('Parametres mals rentrés');
     }
@@ -86,6 +92,7 @@ module.exports = class Stock {
    * @returns {boolean}
    */
   resteAssezIngredientIndice(indice, valeur) {
+
     return (indice >= valeur);
   }
 
@@ -109,8 +116,8 @@ module.exports = class Stock {
       return false;
     }
 
-    for (var i = 0; i < this.ingredient.length; i++) {
-      this.ingredient[i] -= recette[i];
+    for (var i = 0; i < this.ingredients.length; i++) {
+      this.ingredients[i] -= recette[i];
     }
     return true;
     // if (!this.resteAssezIngredient(null, null)) this.ravitaillement();
@@ -122,8 +129,10 @@ module.exports = class Stock {
    *  Cette fonction affiche le stock restant de chaque ingrédient
    */
   afficherStock() {
-    for (var i = 0; i < this.ingredient.length; i++) {
-      console.log(this.ingredient[i]);
+    console.log('AFFICHER STOCK');
+    console.log('Il y a' + this.ingredients.length + ' types d\'ingrédients');
+    for (var i = 0; i < this.ingredients.length; i++) {
+      console.log('Ingrédient ' + (i + 1) + " " + this.ingredients[i]);
     }
   }
 };

@@ -4,14 +4,10 @@ html,body{
     margin: 0;
     spacing: 0;
 }
-
 body {
     position: relative;
-    background-image: url(../IMAGES/fondRestaurant.jpg);
     background-size:100% 100%;
-
 }
-
 #centralDiv {
     min-width: 150px;
     position: absolute;
@@ -24,10 +20,122 @@ body {
     margin: auto;
     text-align: center;
 }
-
 button {
     padding: 10px;
     width: 100%;
     height: 100%
 
+}
+@font-face{
+  font-family:"score";
+  src: url('../fonts/digital-7.ttf');
+}
+
+@font-face{
+  font-family:"eraser";
+  src: url('../fonts/Eraser.ttf');
+}
+
+#client{
+  font-size:200%;
+  font-family: "score";
+  text-align: center;
+}
+
+#horloge{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 10px;
+  text-align: right;
+  font-family: "score";
+  font-size: 500%;
+}
+
+#img{
+  vertical-align: middle;
+}
+
+#ingredients{
+  text-align: left;
+  font-weight: bold;
+  padding: 0.4em;
+}
+
+#parquet{
+  background-image: url("../IMAGES/texture.jpg");
+}
+
+#quantite{
+  text-align: center;
+  padding: 0.4em;
+
+}
+
+#restau{
+  font-family: monospace;
+  font-size:100%;
+  text-align: center;
+}
+
+#restaurant{
+  float:left;
+  clear: both;
+  height: 100%;
+  width: 55%;
+  border-collapse:collapse;
+  border-style: outset;
+  border-color: gainsboro;
+  background-color: rgba(130, 130, 130, 0.5);
+}
+
+#rungis{
+  float:left;
+  margin-left: 10px;
+  border-style: outset;
+  font-size:110%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#score{
+  font-family: "score";
+  text-align:center;
+  font-size:140%;
+  color:firebrick;
+  padding: 0.5em;
+}
+
+#statut_r{
+  font-size:180%;
+  font-family: monospace;
+  text-align:center;
+  text-transform: uppercase;
+  color: white;
+  background-color:darkgreen;/* quand fermé : firebrick*/
+}
+
+#statut{
+  font-size:180%;
+  font-family: monospace;
+  text-align:center;
+  text-transform: uppercase;
+  color: darkgreen; /* quand fermé : firebrick*/
+}
+
+#stock{
+  height: 100%;
+  width: 40%;
+  float:right;
+  border-collapse: collapse;
+  border-style: outset;
+  border-color:black;
+  background-color: rgba(0, 0, 0, 0.5);
+  color:gainsboro;
+  font-family: "eraser";
+  font-family: monospace;
+  text-align:center;
+}
+
+#unite{
+  margin: 10px;
+  height: 150px;
 }

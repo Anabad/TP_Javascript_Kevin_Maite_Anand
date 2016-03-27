@@ -2,44 +2,45 @@
 
 var Stock = require('./Stock.js');
 var getRandom = require('./fonctionsUtiles.js').getRandom;
-var creationTableau = require('./fonctionsUtiles.js').creationTableau;
-var remplirTableauAleatoire = require('./fonctionsUtiles.js').remplirTableauAleatoire;
 
 
-const TEMPS_PREPARATION_MIN = 1000; // Correspond à 5 minutes dans notre horloge
-const TEMPS_PREPARATION_MAX = 10 * 1000; // Correspond à 50 minutes dans notre
-// horloge
-const NOMBRE_DE_RECETTE_MIN = 3;
-const NOMBRE_DE_RECETTE_MAX = 5;
-const NOMBRE_TYPE_INGREDIENT = 5;
-const NOMBRE_INGREDIENT_MIN_RECETTE = 1;
-const NOMBRE_INGREDIENT_MAX_RECETTE = 3;
+var CST =require('./Constantes');
 
 module.exports = class Restaurant {
   constructor(horaire) {
-    this.recette = Restaurant.__creerRecette();
+    this.recettes = this.creerRecette();
+    //this.afficherRecettes();
     this.horaireRestaurateur = horaire;
     this.stock = new Stock();
     this.note = 0;
 
   }
 
-  static __creerRecette() {
-    var recette = creationTableau(
-      getRandom(NOMBRE_DE_RECETTE_MIN, NOMBRE_DE_RECETTE_MAX), []);
-    for (let i = 0; i < recette.length; i++) {
-      recette[i].push(
-        remplirTableauAleatoire(creationTableau(NOMBRE_TYPE_INGREDIENT, 0),
-          getRandom(NOMBRE_INGREDIENT_MIN_RECETTE,
-            NOMBRE_INGREDIENT_MAX_RECETTE)));
+  creerRecette() {
+    var recette = new Array(getRandom(CST.NOMBRE_DE_RECETTE_MIN, CST.NOMBRE_DE_RECETTE_MAX));
+    for (var i = 0; i < recette.length; i++) {
+      recette[i] = new Array(CST.NOMBRE_TYPE_INGREDIENT);
+      for (var j = 0; j < recette[i].length; j++) {
+        recette[i][j] = getRandom(CST.NOMBRE_INGREDIENT_MIN_RECETTE,CST.NOMBRE_INGREDIENT_MAX_RECETTE);
+      }
+      if (this.testRecetteVide(recette[i])){
+        recette[i][getRandom(0,recette[i].length-1)] = 1;
+      }
     }
     return recette;
   }
-
-  __listeRepasDispo() {
+  testRecetteVide(recette){
+    for(var i =0;i<recette.length;i++){
+      if(recette[i]  == 0){
+        return false;
+      }
+    }
+    return true;
+  }
+  listeRepasDispo() {
     var repasDispo = [];
-    for (var i = 0; i < this.recette.length; i++) {
-      if (this.stock.resteAssezIngredientIndice(this.recette[i])) {
+    for (var i = 0; i < this.recettes.length; i++) {
+      if (this.stock.resteAssezIngredientIndice(this.recettes[i])) {
         repasDispo.push(i);
       }
     }
@@ -50,24 +51,27 @@ module.exports = class Restaurant {
     if (!this.horaireRestaurateur.estOuvert(heure)) {
       return false;
     }
-    for (var i = 0; i < this.recette.length; i++) {
-      if (this.stock.resteAssezIngredientIndice(this.recette[i])) {
+
+    for (var i = 0; i < this.recettes.length; i++) {
+      if (this.stock.resteAssezIngredient(this.recettes[i],"Recette")) {
         return true;
       }
     }
+    console.log("PAS DE RECETTE");
     return false;
   }
 
   servirClient(client) {
-    console.log('on sert un client');
-    var choix = client.choixRepas(this.__listeRepasDispo());
-    client.attente = getRandom(TEMPS_PREPARATION_MIN, TEMPS_PREPARATION_MAX);
-    setTimeout(()=> this.stock.retirerIngredients(this.recette[choix]), client.attente);
-    this.__notationRestaurant(client);
+    var choix = client.choixRepas(this.listeRepasDispo());
+    console.log("Choix: "+choix);
+    client.attente = getRandom(CST.TEMPS_PREPARATION_MIN, CST.TEMPS_PREPARATION_MAX);
+    console.log("Attente: "+client.attente);
+    this.stock.retirerIngredients(this.recettes[choix]);
+    this.notationRestaurant(client);
     console.log(this.note);
   }
 
-  __notationRestaurant(client) {
+  notationRestaurant(client) {
     // Si le client est servi 10 minutes avant son seuil de résistance alors le
     // restaurant gagne 2 points
     if (client.attente < client.seuilDeResistance - 10) {
@@ -78,6 +82,16 @@ module.exports = class Restaurant {
       this.note = this.note + 1;
     }
     // Sinon il ne gagne rien
+  }
+
+  afficherRecettes() {
+    console.log("AFFICHER RECETTES");
+    console.log("Il y a " + this.recettes.length + " recette");
+    for (var i = 0; i < this.recettes.length; i++) {
+      for (var j = 0; j < this.recettes[i].length; j++) {
+        console.log("Ingredient " + (j + 1) + " : " + this.recettes[i][j]);
+      }
+    }
   }
 };
 
