@@ -6,22 +6,17 @@ let usefulFunctions = require('./fonctionsUtiles');
 const creationTableau = usefulFunctions.creationTableau;
 const getRandom = usefulFunctions.getRandom;
 usefulFunctions = null;
-
+const Event = require('./Event');
 
 // Const créé pour le test
-
-const TEMPS_ATTENTE_MIN_RAVITAILLEMENT = 15;
-const TEMPS_ATTENTE_MAX_RAVITAILLEMENT = 115;
-const NOMBRE_INGREDIENT = 10;
-const STOCK_DEPART = 20;
-const STOCK_DESIRE = 20;
-const SEUIL_CRITIQUE = 5;
+var CST = require('./Constantes');
 
 
 module.exports = class Stock {
-  constructor() {
+  constructor(restaurantParent) {
+    this.restaurantParent = restaurantParent;
+    this.event = new Event();
     this.ingredients = this.initialiserIngredient();
-    //this.afficherStock()
   }
 
   /**
@@ -32,16 +27,17 @@ module.exports = class Stock {
    * @private
    */
   initialiserIngredient() {
-    return creationTableau(NOMBRE_INGREDIENT, STOCK_DEPART);
+    return creationTableau(CST.NOMBRE_TYPE_INGREDIENT, CST.STOCK_DEPART);
   }
 
   ravitaillement() {
     setTimeout(() => {
       for (var i = 0; i < this.ingredients.length; i++) {
-        this.ingredients[i] = STOCK_DESIRE;
+        this.ingredients[i] = CST.STOCK_DESIRE;
       }
-    }, getRandom(TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
-      TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
+    }, getRandom(CST.TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
+      CST.TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
+    this.event.emit('updateIngredient',this.restaurantParent);
   }
 
   /**
@@ -64,7 +60,7 @@ module.exports = class Stock {
   resteAssezIngredient(test, option) {
     if (!test) {
       for (var i = 0; i < this.ingredients.length; i++) {
-        if (!this.resteAssezIngredientIndice(i, SEUIL_CRITIQUE)) {
+        if (!this.resteAssezIngredientIndice(i, CST.SEUIL_CRITIQUE)) {
           return false;
         }
       }
@@ -118,6 +114,7 @@ module.exports = class Stock {
     for (var i = 0; i < this.ingredients.length; i++) {
       this.ingredients[i] -= recette[i];
     }
+    this.event.emit('updateIngredient',this.restaurantParent);
     return true;
     // if (!this.resteAssezIngredient(null, null)) this.ravitaillement();
   }
@@ -129,9 +126,9 @@ module.exports = class Stock {
    */
   afficherStock() {
     console.log('AFFICHER STOCK');
-    console.log('Il y a' + this.ingredients.length + ' types d\'ingrédients');
+    console.log('Il y a ' + this.ingredients.length + ' types d\'ingrédients');
     for (var i = 0; i < this.ingredients.length; i++) {
-      console.log('Ingrédient ' + (i + 1) + " " + this.ingredients[i]);
+      console.log('Ingrédient ' + (i + 1) + ' ' + this.ingredients[i]);
     }
   }
 };

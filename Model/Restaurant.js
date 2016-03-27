@@ -3,16 +3,16 @@
 const Client = require('./Client');
 var Stock = require('./Stock.js');
 var getRandom = require('./fonctionsUtiles.js').getRandom;
+const Event = require('./Event');
 
-
-var CST =require('./Constantes');
+var CST = require('./Constantes');
 
 module.exports = class Restaurant {
   constructor(horaire) {
+    this.event = new Event();
     this.recettes = this.creerRecette();
-    //this.afficherRecettes();
     this.horaireRestaurateur = horaire;
-    this.stock = new Stock();
+    this.stock = new Stock(this);
     this.note = 0;
 
   }
@@ -22,26 +22,28 @@ module.exports = class Restaurant {
     for (var i = 0; i < recette.length; i++) {
       recette[i] = new Array(CST.NOMBRE_TYPE_INGREDIENT);
       for (var j = 0; j < recette[i].length; j++) {
-        recette[i][j] = getRandom(CST.NOMBRE_INGREDIENT_MIN_RECETTE,CST.NOMBRE_INGREDIENT_MAX_RECETTE);
+        recette[i][j] = getRandom(CST.NOMBRE_INGREDIENT_MIN_RECETTE, CST.NOMBRE_INGREDIENT_MAX_RECETTE);
       }
-      if (this.testRecetteVide(recette[i])){
-        recette[i][getRandom(0,recette[i].length-1)] = 1;
+      if (this.testRecetteVide(recette[i])) {
+        recette[i][getRandom(0, recette[i].length - 1)] = 1;
       }
     }
     return recette;
   }
-  testRecetteVide(recette){
-    for(var i =0;i<recette.length;i++){
-      if(recette[i]  == 0){
+
+  testRecetteVide(recette) {
+    for (var i = 0; i < recette.length; i++) {
+      if (recette[i] == 0) {
         return false;
       }
     }
     return true;
   }
+
   listeRepasDispo() {
     var repasDispo = [];
     for (var i = 0; i < this.recettes.length; i++) {
-      if (this.stock.resteAssezIngredient(this.recettes[i],'Recette')) {
+      if (this.stock.resteAssezIngredient(this.recettes[i], 'Recette')) {
         repasDispo.push(i);
       }
     }
@@ -54,7 +56,7 @@ module.exports = class Restaurant {
     }
 
     for (var i = 0; i < this.recettes.length; i++) {
-      if (this.stock.resteAssezIngredient(this.recettes[i],"Recette")) {
+      if (this.stock.resteAssezIngredient(this.recettes[i], "Recette")) {
         return true;
       }
     }
@@ -64,9 +66,9 @@ module.exports = class Restaurant {
 
   servirClient(client) {
     var choix = Client.choixRepas(this.listeRepasDispo());
-    console.log("Choix: "+choix);
+    console.log("Choix: " + choix);
     client.attente = getRandom(CST.TEMPS_PREPARATION_MIN, CST.TEMPS_PREPARATION_MAX);
-    console.log("Attente: "+client.attente);
+    console.log("Attente: " + client.attente);
     this.stock.retirerIngredients(this.recettes[choix]);
     this.notationRestaurant(client);
     console.log(this.note);

@@ -1,15 +1,15 @@
 'use strict';
 
 const Horaire = require('../../Model/Horaire.js');
-var events = require('events');
-var eventEmitter = new events.EventEmitter();
+var CST = require('../../Model/Constantes.js');
 
-module.exports = class View{
-  constructor(){
-    this.marcherRungis = new Horaire([5],[14]);
+module.exports = class View {
+  constructor() {
+    this.marcherRungis = new Horaire([5], [14]);
   }
-  affichageSimulation(){
-    var html='';
+
+  affichageSimulation() {
+    var html = '';
     html = html.concat('<table id="rungis">');
     html = html.concat('<thead>');
     html = html.concat('<tr>');
@@ -23,61 +23,72 @@ module.exports = class View{
     html = html.concat('</tbody>');
     html = html.concat('</table>');
     html = html.concat('<p id="horloge"> 00:00</p>');
-    html = html.concat('<div id="unite">');
-    html = html.concat('<table id="restaurant">');
-    html = html.concat('<thead>');
-    html = html.concat('<tr>');
-    html = html.concat('<td id="restau"> Restaurant  </td>');
-    html = html.concat('<td id="statut"> Ouvert </td>');
-    html = html.concat('</tr>');
-    html = html.concat('</thead>');
-    html = html.concat('<tbody>');
-    html = html.concat('<tr>');
-    html = html.concat('<td id="client" colspan="2">');
-    html = html.concat('<img id="img" src="./IMAGES/people.png" title="client" width="30px">');
-    html = html.concat('00');
-    html = html.concat('</td>');
-    html = html.concat('</tr>');
-    html = html.concat('</tbody>');
-    html = html.concat('<tfoot>');
-    html = html.concat('<tr>');
-    html = html.concat('<td id="score" colspan="2"> Score : 00 </td>');
-    html = html.concat('</tr>');
-    html = html.concat('</tfoot>');
-    html = html.concat('</table>');
-    html = html.concat('<table id="stock" colspan="2">');
-    html = html.concat('<thead>');
-    html = html.concat('<tr>');
-    html = html.concat('<td id="ingredients"> Ingrédients </td>');
-    html = html.concat('<td id="quantite"> Quantité </td>');
-    html = html.concat('</tr>');
-    html = html.concat('</thead>');
-    html = html.concat('<tbody>');
-    html = html.concat('<tr>');
-    html = html.concat('<td id="ingredients">...</td>');
-    html = html.concat('<td id="quantite"> 00 </td>');
-    html = html.concat('</tr>');
-    html = html.concat('</tbody>');
-    html = html.concat('</table>');
-    html = html.concat('</div>');
-    html = html.concat('<br><br>');
+    for (var i = 0; i < CST.NOMBRE_DE_RESTAURANT; i++) {
+      html = html.concat('<div id="unite">');
+      html = html.concat('<table id="restaurant">');
+      html = html.concat('<thead>');
+      html = html.concat('<tr>');
+      html = html.concat('<td id="restau',i,'" class="restau"> Restaurant  </td>');
+      html = html.concat('<td id="statut',i,'" class="statut"> Ouvert </td>');
+      html = html.concat('</tr>');
+      html = html.concat('</thead>');
+      html = html.concat('<tbody>');
+      html = html.concat('<tr>');
+      html = html.concat('<td id="client" colspan="2">');
+      html = html.concat('<img id="img',i,'" class="img" src="./IMAGES/people.png" title="client" width="30px">');
+      html = html.concat('00');
+      html = html.concat('</td>');
+      html = html.concat('</tr>');
+      html = html.concat('</tbody>');
+      html = html.concat('<tfoot>');
+      html = html.concat('<tr>');
+      html = html.concat('<td id="score',i,'" class="score" colspan="2"> Score : 00 </td>');
+      html = html.concat('</tr>');
+      html = html.concat('</tfoot>');
+      html = html.concat('</table>');
+      html = html.concat('<table id="stock',i,'" class="stock" colspan="2">');
+      html = html.concat('<thead>');
+      html = html.concat('<tr>');
+      html = html.concat('<td id="ingredients" class="ingredients"> Ingrédients </td>');
+      html = html.concat('<td id="quantite" class="quantite"> Quantité </td>');
+      html = html.concat('</tr>');
+      html = html.concat('</thead>');
+      html = html.concat('<tbody>');
+      for(var j = 0;j< CST.NOMBRE_TYPE_INGREDIENT;j++) {
+        html = html.concat('<tr>');
+        html = html.concat('<td id="ingredients',i,j,'" class="ingredients">...</td>');
+        html = html.concat('<td id="quantite',i,j,'" class="quantite"> 00 </td>');
+        html = html.concat('</tr>');
+      }
+      html = html.concat('</tbody>');
+      html = html.concat('</table>');
+      html = html.concat('</div>');
+    }
     document.body.innerHTML = html;
   }
 
-  setHorloge(heure,minute){
+  setHorloge(heure, minute) {
     var h;
-    heure<10 ? h='0' : h='';
+    heure < 10 ? h = '0' : h = '';
     var m;
-    minute<10 ? m='0' : m='';
-    document.getElementById('horloge').innerHTML = h+heure+':'+m+minute;
+    minute < 10 ? m = '0' : m = '';
+    document.getElementById('horloge').innerHTML = h + heure + ':' + m + minute;
     var elmt = document.getElementById("statut_r");
-    if(this.marcherRungis.estOuvert(heure)){
+    if (this.marcherRungis.estOuvert(heure)) {
       elmt.style.backgroundColor = 'darkgreen';
-      elmt.innerHTML ='Ouvert';
+      elmt.innerHTML = 'Ouvert';
     }
-    else{
+    else {
       elmt.style.backgroundColor = '#b22222';
-      elmt.innerHTML ='Fermé';
+      elmt.innerHTML = 'Fermé';
+    }
+  }
+
+  updateIngredient(indice,ingredient){
+    console.log(indice);
+    console.log("Il y a "+ingredient.length+" types d'ingrédients");
+    for (var i = 0; i < ingredient.length; i++) {
+      document.getElementById('quantite'+indice+i).innerHTML = ingredient[i];
     }
   }
 };

@@ -51,11 +51,11 @@ button {
   font-size: 500%;
 }
 
-#img{
+.img{
   vertical-align: middle;
 }
 
-#ingredients{
+.ingredients{
   text-align: left;
   font-weight: bold;
   padding: 0.4em;
@@ -65,13 +65,13 @@ button {
   background-image: url("../IMAGES/texture.jpg");
 }
 
-#quantite{
+.quantite{
   text-align: center;
   padding: 0.4em;
 
 }
 
-#restau{
+.restau{
   font-family: monospace;
   font-size:100%;
   text-align: center;
@@ -96,7 +96,7 @@ button {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-#score{
+.score{
   font-family: "score";
   text-align:center;
   font-size:140%;
@@ -113,7 +113,7 @@ button {
   background-color:firebrick;/* quand ouvert : darkgreen*/
 }
 
-#statut{
+.statut{
   font-size:180%;
   font-family: monospace;
   text-align:center;
@@ -121,7 +121,7 @@ button {
   color: darkgreen; /* quand fermé : firebrick*/
 }
 
-#stock{
+.stock{
   height: 100%;
   width: 40%;
   float:right;

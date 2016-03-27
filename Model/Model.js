@@ -5,11 +5,15 @@ const Restaurant = require('./Restaurant');
 const Client = require('./Client');
 const Horaire = require('./Horaire');
 const getRandom = require('./fonctionsUtiles').getRandom;
+const Event = require('./Event');
+
 //var chalk = require('chalk');
 var CST = require('./Constantes');
 
+
 module.exports = class Model {
   constructor(view) {
+    this.event = new Event();
     this.view = view;
     this.horloge = new Horloge();
     this.restaurants = [];
@@ -22,6 +26,15 @@ module.exports = class Model {
 
   lancer() {
     this.view.affichageSimulation();
+    for (var i = 0; i < this.restaurants.length; i++) {
+      this.view.updateIngredient(i, this.restaurants[i].stock.ingredients);
+    }
+    this.event.on('updateIngredient',(refRestaurant) => {
+      var indice = this.trouverRestaurantParRef(refRestaurant);
+      if(indice != -1){
+        this.view.updateIngredient(indice, this.restaurants[indice].stock.ingredients);
+      }
+    });
     this.horloge.lancer();
     this.horloge.signal.on('Minute', (heure, minute) => {
       this.creationClient();
@@ -49,5 +62,13 @@ module.exports = class Model {
         this.repartirClient(client)
       }, CST.TEMPS_ATTENTE);
     }
+  }
+  trouverRestaurantParRef(ref){
+    for(var i= 0; i< this.restaurants.length;i++){
+      if( this.restaurants[i] = ref){
+        return i;
+      }
+    }
+    return -1;
   }
 };
