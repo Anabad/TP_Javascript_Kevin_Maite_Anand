@@ -20,4 +20,10 @@ module.exports = class Horaire {
     }
     return test;
   }
+  afficherHoraire(){
+    console.log("Les horaires sont");
+    for (var i = 0; i < this.debut.length; i++) {
+      console.log(this.debut[i]+" - "+this.fin[i]);
+    }
+  }
 };

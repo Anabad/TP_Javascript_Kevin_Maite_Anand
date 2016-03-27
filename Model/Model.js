@@ -29,9 +29,9 @@ module.exports = class Model {
     for (var i = 0; i < this.restaurants.length; i++) {
       this.view.updateIngredient(i, this.restaurants[i].stock.ingredients);
     }
-    this.event.on('updateIngredient',(refRestaurant) => {
+    this.event.on('updateIngredient', (refRestaurant) => {
       var indice = this.trouverRestaurantParRef(refRestaurant);
-      if(indice != -1){
+      if (indice != -1) {
         this.view.updateIngredient(indice, this.restaurants[indice].stock.ingredients);
       }
     });
@@ -52,9 +52,13 @@ module.exports = class Model {
 
   repartirClient(client) {
     if (this.restaurants.length != 0) {
-      var restaurantChoisi = this.restaurants[[getRandom(0, this.restaurants.length - 1)]];
-      if (restaurantChoisi.possibiliterServir(this.horloge.heure)) {
-        restaurantChoisi.servirClient(client);
+      var restaurant = getRandom(0, this.restaurants.length - 1);
+      if (this.restaurants[1].statut == "Ouvert") {
+        this.restaurants[0].servirClient(client);
+        console.log("Restaurant 0");
+        this.restaurants[0].stock.afficherStock();
+        console.log("Restaurant 1");
+        this.restaurants[1].stock.afficherStock();
       }
     }
     else {
@@ -63,12 +67,19 @@ module.exports = class Model {
       }, CST.TEMPS_ATTENTE);
     }
   }
-  trouverRestaurantParRef(ref){
-    for(var i= 0; i< this.restaurants.length;i++){
-      if( this.restaurants[i] = ref){
+
+  trouverRestaurantParRef(ref) {
+    for (var i = 0; i < this.restaurants.length; i++) {
+      if (this.restaurants[i] = ref) {
         return i;
       }
     }
     return -1;
+  }
+
+  afficherRestaurantStatut() {
+    for (var i = 0; i < this.restaurants.length; i++) {
+      console.log('Le restaurant '+i+' est '+this.restaurants[i].statut);
+    }
   }
 };

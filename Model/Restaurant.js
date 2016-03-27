@@ -1,5 +1,6 @@
 'use strict';
 
+var Horloge = require('./Horloge');
 const Client = require('./Client');
 var Stock = require('./Stock.js');
 var getRandom = require('./fonctionsUtiles.js').getRandom;
@@ -7,13 +8,22 @@ const Event = require('./Event');
 
 var CST = require('./Constantes');
 
+
 module.exports = class Restaurant {
   constructor(horaire) {
+    this.statut="Fermé";
+    this.horloge = new Horloge();
     this.event = new Event();
     this.recettes = this.creerRecette();
     this.horaireRestaurateur = horaire;
     this.stock = new Stock(this);
     this.note = 0;
+    this.horloge.signal.on('Heure', (heure) => {
+      this.possibiliterServir(heure);
+    });
+    this.event.on('updateIngredient', (refRestaurant) => {
+      this.possibiliterServir(this.horloge.heure);
+    });
 
   }
 
@@ -30,7 +40,6 @@ module.exports = class Restaurant {
     }
     return recette;
   }
-
   testRecetteVide(recette) {
     for (var i = 0; i < recette.length; i++) {
       if (recette[i] == 0) {
@@ -52,26 +61,26 @@ module.exports = class Restaurant {
 
   possibiliterServir(heure) {
     if (!this.horaireRestaurateur.estOuvert(heure)) {
+      this.statut="Fermé";
       return false;
     }
 
     for (var i = 0; i < this.recettes.length; i++) {
       if (this.stock.resteAssezIngredient(this.recettes[i], "Recette")) {
+        this.statut="Ouvert";
         return true;
       }
     }
     console.log("PAS DE RECETTE");
+    this.statut="Fermé";
     return false;
   }
 
   servirClient(client) {
     var choix = Client.choixRepas(this.listeRepasDispo());
-    console.log("Choix: " + choix);
     client.attente = getRandom(CST.TEMPS_PREPARATION_MIN, CST.TEMPS_PREPARATION_MAX);
-    console.log("Attente: " + client.attente);
     this.stock.retirerIngredients(this.recettes[choix]);
     this.notationRestaurant(client);
-    console.log(this.note);
   }
 
   notationRestaurant(client) {

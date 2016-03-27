@@ -85,8 +85,6 @@ module.exports = class View {
   }
 
   updateIngredient(indice,ingredient){
-    console.log(indice);
-    console.log("Il y a "+ingredient.length+" types d'ingrédients");
     for (var i = 0; i < ingredient.length; i++) {
       document.getElementById('quantite'+indice+i).innerHTML = ingredient[i];
     }
