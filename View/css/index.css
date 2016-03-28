@@ -63,28 +63,6 @@ body {
   font-weight: bold;
   padding: 0.4em;
 }
-#PauseButton {
-  padding: 20px;
-  border-radius: 6px;
-  box-shaddow: 6px 6px 5px #999999;
-  background-color: rgba(0, 0, 0, 0);
-  outline: none;
-}
-#PlayButton {
-  margin-left:5%;
-  padding: 20px;
-  border-radius: 6px;
-  box-shaddow: 6px 6px 5px #999999;
-  background-color: rgba(0, 0, 0, 0);
-  outline: none;
-}
-#StopButton {
-  padding: 20px;
-  border-radius: 6px;
-  box-shaddow: 6px 6px 5px #999999;
-  background-color: rgba(0, 0, 0, 0);
-  outline: none;
-}
 
 #parquet{
   background-image: url("../IMAGES/texture.jpg");

@@ -34,9 +34,6 @@ module.exports = class View {
     html = html.concat('</tr>');
     html = html.concat('</thead>');
     html = html.concat('</table>');
-    html = html.concat('<button id="PlayButton" onclick="play()"><img id="play" src="./IMAGES/play.png"></button>');
-    html = html.concat('<button id="PauseButton" onclick="pause()"><img id="pause" src="./IMAGES/pause.png"></button>');
-    html = html.concat('<button id="StopButton" onclick="stop()"><img id="stop" src="./IMAGES/stop.png"></button>');
     for (var i = 0; i < CST.NOMBRE_DE_RESTAURANT; i++) {
       html = html.concat('<div id="unite">');
       html = html.concat('<table id="restaurant">');
@@ -58,7 +55,8 @@ module.exports = class View {
       html = html.concat('</tbody>');
       html = html.concat('<tfoot>');
       html = html.concat('<tr>');
-      html = html.concat('<td id="score', i, '" class="score" colspan="2">Score : 00</td>');
+      html = html.concat('<td id="score', i, '" class="score" >Score : 00</td>');
+      html = html.concat('<td id="scoreJournalier', i, '" class="score" > Score Journalier : 00 </td>');
       html = html.concat('</tr>');
       html = html.concat('</tfoot>');
       html = html.concat('</table>');
@@ -108,7 +106,7 @@ module.exports = class View {
   updateStatut(indice, statut) {
     var elem = document.getElementById('statut' + indice);
     elem.innerHTML = statut;
-    statut == "Ouvert" ? elem.style.color = 'darkgreen' : elem.style.color = 'firebrick';
+    statut == 'Ouvert' ? elem.style.color = 'darkgreen' : elem.style.color = 'firebrick';
   }
 
   updateClientServi(indice, clientServi) {
@@ -116,8 +114,9 @@ module.exports = class View {
   }
 
   updateScoreJournalier(indice, score) {
-    document.getElementById('scoreJournalier' + indice).innerHTML = 'Score : ' + score;
+    document.getElementById('scoreJournalier' + indice).innerHTML = 'Score Journalier: ' + score;
   }
+
   updateScore(indice, score) {
     document.getElementById('score' + indice).innerHTML = 'Score : ' + score;
   }

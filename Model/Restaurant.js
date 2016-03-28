@@ -23,7 +23,8 @@ module.exports = class Restaurant {
       this.possibiliterServir(heure);
     });
     this.horloge.signal.on('Jour', () => {
-      this.scorer();
+      this._scoreJournalier = 0;
+      this.event.emit('scorerJournalier', this.indice, this._scoreJournalier);
     });
     this.event.on('updateIngredient', () => {
       this.possibiliterServir(this.horloge.heure);
@@ -47,15 +48,16 @@ module.exports = class Restaurant {
     this.event.emit('clientServi', this.indice, this._servi);
   }
 
-  scorer() {
-    this._score += this._scoreJournalier * this.horaireRestaurateur.nombreHeureFermeture();
-    this._scoreJournalier = 0;
+  scorer(score) {
+    this._score += score;
     this.event.emit('scorer', this.indice, this._score);
   }
 
   scorerJournalier(score) {
-    this._scoreJournalier += score;
+    this._scoreJournalier +=
+      score * this.horaireRestaurateur.nombreHeureFermeture();
     this.event.emit('scorerJournalier', this.indice, this._scoreJournalier);
+    this.scorer(score * this.horaireRestaurateur.nombreHeureFermeture());
   }
 
   creerRecette() {

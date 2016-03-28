@@ -69,15 +69,6 @@ module.exports = class Model {
     this.event.on('scorerJournalier', (indice, score) => {
       this.view.updateScoreJournalier(indice, score);
     });
-    this.event.on('play', () => {
-      console.log('Play');
-    });
-    this.event.on('pause', () => {
-      console.log('Pause');
-    });
-    this.event.on('stop', () => {
-      console.log('stop');
-    });
     this.horloge.signal.on('Minute', (heure, minute) => {
       this.creationClient();
       this.view.setHorloge(heure, minute);
