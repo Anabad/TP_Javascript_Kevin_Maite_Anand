@@ -1,7 +1,7 @@
 'use strict';
 
-const Horaire = require('../../Model/Horaire.js');
-var CST = require('../../Model/Constantes.js');
+const Horaire = require('../../Model/Horaire');
+var CST = require('../../Model/Constantes');
 let ListeIngredients = ['Steak', 'Jambon','Dinde','Salade','Riz','Pates'];
 
 module.exports = class View {

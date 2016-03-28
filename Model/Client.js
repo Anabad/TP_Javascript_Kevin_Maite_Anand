@@ -1,6 +1,6 @@
 'use strict';
 
-var getRandom = require('./fonctionsUtiles.js').getRandom;
+var getRandom = require('./fonctionsUtiles').getRandom;
 var CST =require('./Constantes');
 
 module.exports = class Client {
@@ -10,6 +10,6 @@ module.exports = class Client {
   }
 
   static choixRepas(listeRepasDispo) {
-    return getRandom(0, listeRepasDispo.length - 1);
+    return listeRepasDispo[getRandom(0, listeRepasDispo.length - 1)];
   }
 };

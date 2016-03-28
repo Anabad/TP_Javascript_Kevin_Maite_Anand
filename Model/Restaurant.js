@@ -3,8 +3,8 @@
 var Horloge = require('./Horloge');
 const Client = require('./Client');
 var Stock = require('./Stock.js');
-var getRandom = require('./fonctionsUtiles.js').getRandom;
-const Event = require('./Event.js');
+var getRandom = require('./fonctionsUtiles').getRandom;
+const Event = require('./Event');
 
 var CST = require('./Constantes');
 
@@ -62,7 +62,7 @@ module.exports = class Restaurant {
 
   testRecetteVide(recette) {
     for (var i = 0; i < recette.length; i++) {
-      if (recette[i] == 0) {
+      if (recette[i] == 1) {
         return false;
       }
     }
@@ -84,7 +84,6 @@ module.exports = class Restaurant {
       this.statut("Fermé");
       return false;
     }
-
     for (var i = 0; i < this.recettes.length; i++) {
       if (this.stock.resteAssezIngredient(this.recettes[i], "Recette")) {
         this.statut("Ouvert");
@@ -99,15 +98,15 @@ module.exports = class Restaurant {
   servirClient(client) {
     var choix = Client.choixRepas(this.listeRepasDispo());
     client.attente = getRandom(CST.TEMPS_PREPARATION_MIN, CST.TEMPS_PREPARATION_MAX);
-    this.clientServi();
     this.stock.retirerIngredients(this.recettes[choix]);
+    this.clientServi();
     this.notationRestaurant(client);
   }
 
   notationRestaurant(client) {
     // Si le client est servi 10 minutes avant son seuil de résistance alors le
     // restaurant gagne 2 points
-    if (client.attente < client.seuilDeResistance - 10) {
+    if (client.attente <= client.seuilDeResistance - 10) {
       this.noter(2);
     } else if (client.attente < client.seuilDeResistance + 5) {
       // Si le client est servi au maximum 5 minutes après son seuil de

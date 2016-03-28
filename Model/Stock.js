@@ -17,6 +17,11 @@ module.exports = class Stock {
     this.indiceRestaurant = indice;
     this.event = new Event();
     this.ingredients = this.initialiserIngredient();
+    this.event.on('updateIngredient', (indice) => {
+      if (!this.resteAssezIngredient(null, null)) {
+        console.log("RAVITAILLEMENT NECESSAIRE");
+      }
+    });
   }
 
   /**
@@ -37,7 +42,7 @@ module.exports = class Stock {
       }
     }, getRandom(CST.TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
       CST.TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
-    this.event.emit('updateIngredient',this.indiceRestaurant);
+    this.event.emit('updateIngredient', this.indiceRestaurant);
   }
 
   /**
@@ -60,35 +65,18 @@ module.exports = class Stock {
   resteAssezIngredient(test, option) {
     if (!test) {
       for (var i = 0; i < this.ingredients.length; i++) {
-        if (!this.resteAssezIngredientIndice(i, CST.SEUIL_CRITIQUE)) {
+        if (this.ingredients[i] < CST.SEUIL_CRITIQUE) {
           return false;
         }
       }
     } else if (option == 'Recette') {
       for (var i = 0; i < test.length; i++) {
-        if(test[i] == 1 && this.ingredients[i] == 0){
+        if (test[i] == 1 && this.ingredients[i] == 0) {
           return false;
         }
       }
-      return true;
-    } else {
-      console.log('Parametres mals rentrés');
     }
-  }
-
-  /**
-   *  RESTE INGREDIENT INDICE
-   *
-   *  Cette fonction retourne vrai si le nombre d'ingrédient donné par l'indice
-   * est supérieur à la valeur donné
-   *
-   * @param indice
-   * @param valeur
-   * @returns {boolean}
-   */
-  resteAssezIngredientIndice(indice, valeur) {
-
-    return (indice >= valeur);
+    return true;
   }
 
   /**
@@ -106,15 +94,15 @@ module.exports = class Stock {
    * @returns {boolean}
    */
   retirerIngredients(recette) {
-    //if (recette !== '[object Array]') throw 'Mauvais type rentré';
     if (!this.resteAssezIngredient(recette, 'Recette')) {
+      console.log("Tu ne devrais pas être la");
       return false;
     }
 
     for (var i = 0; i < this.ingredients.length; i++) {
       this.ingredients[i] -= recette[i];
     }
-    this.event.emit('updateIngredient',this.indiceRestaurant);
+    this.event.emit('updateIngredient', this.indiceRestaurant);
     return true;
     // if (!this.resteAssezIngredient(null, null)) this.ravitaillement();
   }
@@ -131,4 +119,5 @@ module.exports = class Stock {
       console.log('Ingrédient ' + (i + 1) + ' ' + this.ingredients[i]);
     }
   }
-};
+}
+;

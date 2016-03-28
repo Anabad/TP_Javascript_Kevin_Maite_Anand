@@ -20,7 +20,6 @@ module.exports = class Model {
     this.restaurants.push(new Restaurant(0, new Horaire([11, 18], [15, 23])));
     this.restaurants.push(new Restaurant(1, new Horaire([1], [23])));
     this.restaurants.push(new Restaurant(2, new Horaire([1], [23])));
-    this.clients = [];
   }
 
 
@@ -37,8 +36,7 @@ module.exports = class Model {
   creationClient() {
     var ajouterClient = getRandom(0, 10);
     if (ajouterClient == 10) {
-      this.clients.push(new Client());
-      this.repartirClient(this.clients[this.clients.length - 1]);
+      this.repartirClient(new Client());
     }
   }
 
