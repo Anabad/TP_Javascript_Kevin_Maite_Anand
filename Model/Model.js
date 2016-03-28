@@ -17,9 +17,9 @@ module.exports = class Model {
     this.view = view;
     this.horloge = new Horloge();
     this.restaurants = [];
-    this.restaurants.push(new Restaurant(new Horaire([11, 18], [15, 23])));
-    this.restaurants.push(new Restaurant(new Horaire([1], [23])));
-    this.restaurants.push(new Restaurant(new Horaire([1], [23])));
+    this.restaurants.push(new Restaurant(0, new Horaire([11, 18], [15, 23])));
+    this.restaurants.push(new Restaurant(1, new Horaire([1], [23])));
+    this.restaurants.push(new Restaurant(2, new Horaire([1], [23])));
     this.clients = [];
   }
 
@@ -28,18 +28,10 @@ module.exports = class Model {
     this.view.affichageSimulation();
     for (var i = 0; i < this.restaurants.length; i++) {
       this.view.updateIngredient(i, this.restaurants[i].stock.ingredients);
+      this.view.updateStatut(i, this.restaurants[i].getStatut());
     }
-    this.event.on('updateIngredient', (refRestaurant) => {
-      var indice = this.trouverRestaurantParRef(refRestaurant);
-      if (indice != -1) {
-        this.view.updateIngredient(indice, this.restaurants[indice].stock.ingredients);
-      }
-    });
+    this.connectionEvent();
     this.horloge.lancer();
-    this.horloge.signal.on('Minute', (heure, minute) => {
-      this.creationClient();
-      this.view.setHorloge(heure, minute);
-    });
   }
 
   creationClient() {
@@ -53,12 +45,8 @@ module.exports = class Model {
   repartirClient(client) {
     if (this.restaurants.length != 0) {
       var restaurant = getRandom(0, this.restaurants.length - 1);
-      if (this.restaurants[1].statut == "Ouvert") {
-        this.restaurants[0].servirClient(client);
-        console.log("Restaurant 0");
-        this.restaurants[0].stock.afficherStock();
-        console.log("Restaurant 1");
-        this.restaurants[1].stock.afficherStock();
+      if (this.restaurants[restaurant].getStatut() == "Ouvert") {
+        this.restaurants[restaurant].servirClient(client);
       }
     }
     else {
@@ -68,18 +56,29 @@ module.exports = class Model {
     }
   }
 
-  trouverRestaurantParRef(ref) {
-    for (var i = 0; i < this.restaurants.length; i++) {
-      if (this.restaurants[i] = ref) {
-        return i;
-      }
-    }
-    return -1;
+  connectionEvent() {
+    this.event.on('updateIngredient', (indice) => {
+      this.view.updateIngredient(indice, this.restaurants[indice].stock.ingredients);
+    });
+    this.event.on('updateStatut', (indice, statut) => {
+      this.view.updateStatut(indice, statut);
+    });
+    this.event.on('clientServi',(indice, clientServi) => {
+      this.view.updateClientServi(indice, clientServi);
+    });
+    this.event.on('noter',(indice, note) => {
+      this.view.updateNote(indice, note);
+    });
+    this.horloge.signal.on('Minute', (heure, minute) => {
+      this.creationClient();
+      this.view.setHorloge(heure, minute);
+    });
+
   }
 
   afficherRestaurantStatut() {
     for (var i = 0; i < this.restaurants.length; i++) {
-      console.log('Le restaurant '+i+' est '+this.restaurants[i].statut);
+      console.log('Le restaurant ' + i + ' est ' + this.restaurants[i].getStatut());
     }
   }
 };

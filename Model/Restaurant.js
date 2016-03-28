@@ -4,20 +4,22 @@ var Horloge = require('./Horloge');
 const Client = require('./Client');
 var Stock = require('./Stock.js');
 var getRandom = require('./fonctionsUtiles.js').getRandom;
-const Event = require('./Event');
+const Event = require('./Event.js');
 
 var CST = require('./Constantes');
 
 
 module.exports = class Restaurant {
-  constructor(horaire) {
-    this.statut="Fermé";
+  constructor(indice, horaire) {
+    this.indice = indice;
     this.horloge = new Horloge();
     this.event = new Event();
     this.recettes = this.creerRecette();
     this.horaireRestaurateur = horaire;
-    this.stock = new Stock(this);
-    this.note = 0;
+    this.stock = new Stock(this.indice);
+    this._statut = "Fermé";
+    this._servi = 0;
+    this._note = 0;
     this.horloge.signal.on('Heure', (heure) => {
       this.possibiliterServir(heure);
     });
@@ -27,6 +29,23 @@ module.exports = class Restaurant {
 
   }
 
+  statut(statut) {
+    if(this._statut != statut){
+      this._statut = statut;
+      this.event.emit('updateStatut',this.indice, this._statut);
+    }
+  }
+  getStatut() {
+    return this._statut;
+  }
+  clientServi(){
+    this._servi++;
+    this.event.emit('clientServi',this.indice, this._servi);
+  }
+  noter(note){
+    this._note+=note;
+    this.event.emit('noter',this.indice, this._note);
+  }
   creerRecette() {
     var recette = new Array(getRandom(CST.NOMBRE_DE_RECETTE_MIN, CST.NOMBRE_DE_RECETTE_MAX));
     for (var i = 0; i < recette.length; i++) {
@@ -40,6 +59,7 @@ module.exports = class Restaurant {
     }
     return recette;
   }
+
   testRecetteVide(recette) {
     for (var i = 0; i < recette.length; i++) {
       if (recette[i] == 0) {
@@ -61,24 +81,25 @@ module.exports = class Restaurant {
 
   possibiliterServir(heure) {
     if (!this.horaireRestaurateur.estOuvert(heure)) {
-      this.statut="Fermé";
+      this.statut("Fermé");
       return false;
     }
 
     for (var i = 0; i < this.recettes.length; i++) {
       if (this.stock.resteAssezIngredient(this.recettes[i], "Recette")) {
-        this.statut="Ouvert";
+        this.statut("Ouvert");
         return true;
       }
     }
     console.log("PAS DE RECETTE");
-    this.statut="Fermé";
+    this.statut("Fermé");
     return false;
   }
 
   servirClient(client) {
     var choix = Client.choixRepas(this.listeRepasDispo());
     client.attente = getRandom(CST.TEMPS_PREPARATION_MIN, CST.TEMPS_PREPARATION_MAX);
+    this.clientServi();
     this.stock.retirerIngredients(this.recettes[choix]);
     this.notationRestaurant(client);
   }
@@ -87,11 +108,11 @@ module.exports = class Restaurant {
     // Si le client est servi 10 minutes avant son seuil de résistance alors le
     // restaurant gagne 2 points
     if (client.attente < client.seuilDeResistance - 10) {
-      this.note = this.note + 2;
+      this.noter(2);
     } else if (client.attente < client.seuilDeResistance + 5) {
       // Si le client est servi au maximum 5 minutes après son seuil de
       // résistance le restaurant gagne 1 point
-      this.note = this.note + 1;
+      this.noter(1);
     }
     // Sinon il ne gagne rien
   }

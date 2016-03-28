@@ -13,8 +13,8 @@ var CST = require('./Constantes');
 
 
 module.exports = class Stock {
-  constructor(restaurantParent) {
-    this.restaurantParent = restaurantParent;
+  constructor(indice) {
+    this.indiceRestaurant = indice;
     this.event = new Event();
     this.ingredients = this.initialiserIngredient();
   }
@@ -37,7 +37,7 @@ module.exports = class Stock {
       }
     }, getRandom(CST.TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
       CST.TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
-    this.event.emit('updateIngredient',this.restaurantParent);
+    this.event.emit('updateIngredient',this.indiceRestaurant);
   }
 
   /**
@@ -114,7 +114,7 @@ module.exports = class Stock {
     for (var i = 0; i < this.ingredients.length; i++) {
       this.ingredients[i] -= recette[i];
     }
-    this.event.emit('updateIngredient',this.restaurantParent);
+    this.event.emit('updateIngredient',this.indiceRestaurant);
     return true;
     // if (!this.resteAssezIngredient(null, null)) this.ravitaillement();
   }

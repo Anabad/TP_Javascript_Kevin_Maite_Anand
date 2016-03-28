@@ -2,6 +2,7 @@
 
 const Horaire = require('../../Model/Horaire.js');
 var CST = require('../../Model/Constantes.js');
+let ListeIngredients = ['Steak', 'Jambon','Dinde','Salade','Riz','Pates'];
 
 module.exports = class View {
   constructor() {
@@ -28,25 +29,27 @@ module.exports = class View {
       html = html.concat('<table id="restaurant">');
       html = html.concat('<thead>');
       html = html.concat('<tr>');
-      html = html.concat('<td id="restau',i,'" class="restau"> Restaurant  </td>');
-      html = html.concat('<td id="statut',i,'" class="statut"> Ouvert </td>');
+      html = html.concat('<td id="restau', i, '" class="restau"> Restaurant  </td>');
+      html = html.concat('<td id="statut', i, '" class="statut"> Ouvert </td>');
       html = html.concat('</tr>');
       html = html.concat('</thead>');
       html = html.concat('<tbody>');
       html = html.concat('<tr>');
       html = html.concat('<td id="client" colspan="2">');
-      html = html.concat('<img id="img',i,'" class="img" src="./IMAGES/people.png" title="client" width="30px">');
+      html = html.concat('<img id="img', i, '" class="img" src="./IMAGES/people.png" title="client" width="30px">');
+      html = html.concat('<div id ="client', i, '">');
       html = html.concat('00');
+      html = html.concat('</div>');
       html = html.concat('</td>');
       html = html.concat('</tr>');
       html = html.concat('</tbody>');
       html = html.concat('<tfoot>');
       html = html.concat('<tr>');
-      html = html.concat('<td id="score',i,'" class="score" colspan="2"> Score : 00 </td>');
+      html = html.concat('<td id="score', i, '" class="score" colspan="2">Score : 00</td>');
       html = html.concat('</tr>');
       html = html.concat('</tfoot>');
       html = html.concat('</table>');
-      html = html.concat('<table id="stock',i,'" class="stock" colspan="2">');
+      html = html.concat('<table id="stock', i, '" class="stock" colspan="2">');
       html = html.concat('<thead>');
       html = html.concat('<tr>');
       html = html.concat('<td id="ingredients" class="ingredients"> Ingrédients </td>');
@@ -54,10 +57,10 @@ module.exports = class View {
       html = html.concat('</tr>');
       html = html.concat('</thead>');
       html = html.concat('<tbody>');
-      for(var j = 0;j< CST.NOMBRE_TYPE_INGREDIENT;j++) {
+      for (var j = 0; j < CST.NOMBRE_TYPE_INGREDIENT; j++) {
         html = html.concat('<tr>');
-        html = html.concat('<td id="ingredients',i,j,'" class="ingredients">...</td>');
-        html = html.concat('<td id="quantite',i,j,'" class="quantite"> 00 </td>');
+        html = html.concat('<td id="ingredients', i, j, '" class="ingredients">',ListeIngredients[j],'</td>');
+        html = html.concat('<td id="quantite', i, j, '" class="quantite"> 00 </td>');
         html = html.concat('</tr>');
       }
       html = html.concat('</tbody>');
@@ -84,9 +87,22 @@ module.exports = class View {
     }
   }
 
-  updateIngredient(indice,ingredient){
+  updateIngredient(indice, ingredient) {
     for (var i = 0; i < ingredient.length; i++) {
-      document.getElementById('quantite'+indice+i).innerHTML = ingredient[i];
+      document.getElementById('quantite' + indice + i).innerHTML = ingredient[i];
     }
+  }
+
+  updateStatut(indice, statut) {
+    var elem = document.getElementById('statut' + indice);
+    elem.innerHTML = statut;
+    statut == "Ouvert" ? elem.style.color = 'darkgreen' : elem.style.color = 'firebrick';
+  }
+
+  updateClientServi(indice, clientServi) {
+    document.getElementById('client' + indice).innerHTML = clientServi;
+  }
+  updateNote(indice, note){
+    document.getElementById('score' + indice).innerHTML = 'Score : ' + note;
   }
 };
