@@ -1,8 +1,7 @@
 'use strict';
 
 const EventEmitter = require('events').EventEmitter;
-
-var CST = require('./Constantes');
+const CST = require('./Constantes');
 
 let instance = null;
 

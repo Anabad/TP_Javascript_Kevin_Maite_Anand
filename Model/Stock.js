@@ -1,29 +1,34 @@
 'use strict';
 
-var Horloge = require('./Horloge');
-// var creationTableau = require('./fonctionsUtiles').creationTableau;
+const Horloge = require('./Horloge');
 let usefulFunctions = require('./fonctionsUtiles');
 const creationTableau = usefulFunctions.creationTableau;
 const getRandom = usefulFunctions.getRandom;
 usefulFunctions = null;
 const Event = require('./Event');
-
-// Const créé pour le test
-var CST = require('./Constantes');
+const CST = require('./Constantes');
 
 
 module.exports = class Stock {
   constructor(indice) {
+    this._statut = "Distribuer";
     this.indiceRestaurant = indice;
     this.event = new Event();
     this.ingredients = this.initialiserIngredient();
     this.event.on('updateIngredient', (indice) => {
       if (!this.resteAssezIngredient(null, null)) {
-        console.log("RAVITAILLEMENT NECESSAIRE");
+        this.statut("DistribuerRavitailler");
       }
     });
   }
-
+  statut(statut){
+    if(this._statut != statut) {
+      this._statut = statut;
+      if (this._statut == "DistribuerRavitailler") {
+        this.ravitaillement();
+      }
+    }
+  }
   /**
    *  INITIALISER INGREDIENT
    *
@@ -40,9 +45,10 @@ module.exports = class Stock {
       for (var i = 0; i < this.ingredients.length; i++) {
         this.ingredients[i] = CST.STOCK_DESIRE;
       }
+      this.statut("Distribuer");
+      this.event.emit('updateIngredient', this.indiceRestaurant);
     }, getRandom(CST.TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
       CST.TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
-    this.event.emit('updateIngredient', this.indiceRestaurant);
   }
 
   /**
@@ -70,7 +76,7 @@ module.exports = class Stock {
         }
       }
     } else if (option == 'Recette') {
-      for (var i = 0; i < test.length; i++) {
+      for ( i = 0; i < test.length; i++) {
         if (test[i] == 1 && this.ingredients[i] == 0) {
           return false;
         }

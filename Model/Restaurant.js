@@ -1,12 +1,11 @@
 'use strict';
 
-var Horloge = require('./Horloge');
+const Horloge = require('./Horloge');
 const Client = require('./Client');
-var Stock = require('./Stock.js');
-var getRandom = require('./fonctionsUtiles').getRandom;
+const Stock = require('./Stock');
+const getRandom = require('./fonctionsUtiles').getRandom;
 const Event = require('./Event');
-
-var CST = require('./Constantes');
+const CST = require('./Constantes');
 
 
 module.exports = class Restaurant {

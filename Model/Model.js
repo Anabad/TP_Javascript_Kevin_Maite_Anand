@@ -7,7 +7,6 @@ const Horaire = require('./Horaire');
 const getRandom = require('./fonctionsUtiles').getRandom;
 const Event = require('./Event');
 
-//var chalk = require('chalk');
 var CST = require('./Constantes');
 
 

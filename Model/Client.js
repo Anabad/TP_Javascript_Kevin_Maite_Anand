@@ -1,7 +1,7 @@
 'use strict';
 
-var getRandom = require('./fonctionsUtiles').getRandom;
-var CST =require('./Constantes');
+const getRandom = require('./fonctionsUtiles').getRandom;
+const CST =require('./Constantes');
 
 module.exports = class Client {
   constructor() {
