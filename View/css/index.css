@@ -20,11 +20,10 @@ body {
     margin: auto;
     text-align: center;
 }
-button {
+#boutonDemarrage{
     padding: 10px;
     width: 100%;
     height: 100%
-
 }
 @font-face{
   font-family:"score";
@@ -41,14 +40,18 @@ button {
   font-family: "score";
   text-align: center;
 }
-
 #horloge{
+  float:right;
   margin-top: 0px;
   margin-bottom: 0px;
   margin-right: 10px;
   text-align: right;
   font-family: "score";
   font-size: 500%;
+}
+
+.chiffre{
+  width:40px;
 }
 
 .img{
@@ -60,6 +63,28 @@ button {
   font-weight: bold;
   padding: 0.4em;
 }
+#PauseButton {
+  padding: 20px;
+  border-radius: 6px;
+  box-shaddow: 6px 6px 5px #999999;
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+}
+#PlayButton {
+  margin-left:5%;
+  padding: 20px;
+  border-radius: 6px;
+  box-shaddow: 6px 6px 5px; #999999;
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+}
+#StopButton {
+  padding: 20px;
+  border-radius: 6px;
+  box-shaddow: 6px 6px 5px #999999;
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+}
 
 #parquet{
   background-image: url("../IMAGES/texture.jpg");
@@ -70,6 +95,7 @@ button {
   padding: 0.4em;
 
 }
+
 
 .restau{
   font-family: monospace;
@@ -100,7 +126,7 @@ button {
   font-family: "score";
   text-align:center;
   font-size:140%;
-  color:firebrick;
+  color: firebrick;
   padding: 0.5em;
 }
 

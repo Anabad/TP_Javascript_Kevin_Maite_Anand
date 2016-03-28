@@ -1,6 +1,7 @@
 'use strict';
 
 const Horloge = require('./Horloge');
+const Horaire = require('./Horaire');
 let usefulFunctions = require('./fonctionsUtiles');
 const creationTableau = usefulFunctions.creationTableau;
 const getRandom = usefulFunctions.getRandom;
@@ -8,16 +9,23 @@ usefulFunctions = null;
 const Event = require('./Event');
 const CST = require('./Constantes');
 
-
 module.exports = class Stock {
   constructor(indice) {
-    this._statut = "Distribuer";
+    this.statutMarcher = 'Fermé';
+    this._statut = 'Distribuer';
+    this.etatRavitaillement = 0;
     this.indiceRestaurant = indice;
     this.event = new Event();
     this.ingredients = this.initialiserIngredient();
     this.event.on('updateIngredient', (indice) => {
       if (!this.resteAssezIngredient(null, null)) {
         this.statut("DistribuerRavitailler");
+      }
+    });
+    this.event.on('Marcher', (statut) => {
+      this.statutMarcher = statut;
+      if (this.statutMarcher == 'Ouvert' && this._statut == "DistribuerRavitailler" && this.etatRavitaillement == 0) {
+        this.ravitaillement();
       }
     });
   }
@@ -41,14 +49,18 @@ module.exports = class Stock {
   }
 
   ravitaillement() {
-    setTimeout(() => {
-      for (var i = 0; i < this.ingredients.length; i++) {
-        this.ingredients[i] = CST.STOCK_DESIRE;
-      }
-      this.statut("Distribuer");
-      this.event.emit('updateIngredient', this.indiceRestaurant);
-    }, getRandom(CST.TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
-      CST.TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
+    if(this.statutMarcher == 'Ouvert'){
+      this.etatRavitaillement=1;
+      setTimeout(() => {
+        for (var i = 0; i < this.ingredients.length; i++) {
+          this.ingredients[i] = CST.STOCK_DESIRE;
+        }
+        this.statut('Distribuer');
+        this.event.emit('updateIngredient', this.indiceRestaurant);
+        this.etatRavitaillement=0;
+      }, getRandom(CST.TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
+        CST.TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
+    }
   }
 
   /**
@@ -100,10 +112,6 @@ module.exports = class Stock {
    * @returns {boolean}
    */
   retirerIngredients(recette) {
-    if (!this.resteAssezIngredient(recette, 'Recette')) {
-      console.log("Tu ne devrais pas être la");
-      return false;
-    }
 
     for (var i = 0; i < this.ingredients.length; i++) {
       this.ingredients[i] -= recette[i];

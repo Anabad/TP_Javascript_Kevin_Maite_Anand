@@ -3,6 +3,7 @@
 const Horloge = require('./Horloge');
 const Restaurant = require('./Restaurant');
 const Client = require('./Client');
+const MarcherRungis = require('./MarcherRungis');
 const Horaire = require('./Horaire');
 const getRandom = require('./fonctionsUtiles').getRandom;
 const Event = require('./Event');
@@ -19,8 +20,8 @@ module.exports = class Model {
     this.restaurants.push(new Restaurant(0, new Horaire([11, 18], [15, 23])));
     this.restaurants.push(new Restaurant(1, new Horaire([1], [23])));
     this.restaurants.push(new Restaurant(2, new Horaire([1], [23])));
+    this.marcherRungis = new MarcherRungis();
   }
-
 
   lancer() {
     this.view.affichageSimulation();
@@ -60,11 +61,20 @@ module.exports = class Model {
     this.event.on('updateStatut', (indice, statut) => {
       this.view.updateStatut(indice, statut);
     });
-    this.event.on('clientServi',(indice, clientServi) => {
+    this.event.on('clientServi', (indice, clientServi) => {
       this.view.updateClientServi(indice, clientServi);
     });
-    this.event.on('noter',(indice, note) => {
+    this.event.on('noter', (indice, note) => {
       this.view.updateNote(indice, note);
+    });
+    this.event.on('play', () => {
+      console.log("Play");
+    });
+    this.event.on('pause', () => {
+      console.log("Pause");
+    });
+    this.event.on('stop', () => {
+      console.log("stop");
     });
     this.horloge.signal.on('Minute', (heure, minute) => {
       this.creationClient();

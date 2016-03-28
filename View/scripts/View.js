@@ -2,7 +2,7 @@
 
 const Horaire = require('../../Model/Horaire');
 const CST = require('../../Model/Constantes');
-const ListeIngredients = ['Steak', 'Jambon','Dinde','Salade','Riz','Pates'];
+const ListeIngredients = ['Steak', 'Jambon', 'Dinde', 'Salade', 'Riz', 'Pates'];
 
 module.exports = class View {
   constructor() {
@@ -23,7 +23,20 @@ module.exports = class View {
     html = html.concat('</tr>');
     html = html.concat('</tbody>');
     html = html.concat('</table>');
-    html = html.concat('<p id="horloge"> 00:00</p>');
+    html = html.concat('<table id="horloge">');
+    html = html.concat('<thead>');
+    html = html.concat('<tr>');
+    html = html.concat('<td id="chiffre0" class ="chiffre" >1</td>');
+    html = html.concat('<td id="chiffre1" class ="chiffre">8</td>');
+    html = html.concat('<td id="chiffre2">:</td>');
+    html = html.concat('<td id="chiffre3" class ="chiffre">1</td>');
+    html = html.concat('<td id="chiffre4" class ="chiffre">1</td>');
+    html = html.concat('</tr>');
+    html = html.concat('</thead>');
+    html = html.concat('</table>');
+    html = html.concat('<button id="PlayButton" onclick="play()"><img id="play" src="./IMAGES/play.png"></button>');
+    html = html.concat('<button id="PauseButton" onclick="pause()"><img id="pause" src="./IMAGES/pause.png"></button>');
+    html = html.concat('<button id="StopButton" onclick="stop()"><img id="stop" src="./IMAGES/stop.png"></button>');
     for (var i = 0; i < CST.NOMBRE_DE_RESTAURANT; i++) {
       html = html.concat('<div id="unite">');
       html = html.concat('<table id="restaurant">');
@@ -59,7 +72,7 @@ module.exports = class View {
       html = html.concat('<tbody>');
       for (var j = 0; j < CST.NOMBRE_TYPE_INGREDIENT; j++) {
         html = html.concat('<tr>');
-        html = html.concat('<td id="ingredients', i, j, '" class="ingredients">',ListeIngredients[j],'</td>');
+        html = html.concat('<td id="ingredients', i, j, '" class="ingredients">', ListeIngredients[j], '</td>');
         html = html.concat('<td id="quantite', i, j, '" class="quantite"> 00 </td>');
         html = html.concat('</tr>');
       }
@@ -70,14 +83,13 @@ module.exports = class View {
     document.body.innerHTML = html;
   }
 
-  setHorloge(heure, minute) {
-    var h;
-    heure < 10 ? h = '0' : h = '';
-    var m;
-    minute < 10 ? m = '0' : m = '';
-    document.getElementById('horloge').innerHTML = h + heure + ':' + m + minute;
+  setHorloge(heures, minutes) {
+    document.getElementById('chiffre0').innerHTML = Math.floor(heures / 10);
+    document.getElementById('chiffre1').innerHTML = heures % 10;
+    document.getElementById('chiffre3').innerHTML = Math.floor(minutes / 10);
+    document.getElementById('chiffre4').innerHTML = minutes % 10;
     var elmt = document.getElementById("statut_r");
-    if (this.marcherRungis.estOuvert(heure)) {
+    if (this.marcherRungis.estOuvert(heures)) {
       elmt.style.backgroundColor = 'darkgreen';
       elmt.innerHTML = 'Ouvert';
     }
@@ -102,7 +114,9 @@ module.exports = class View {
   updateClientServi(indice, clientServi) {
     document.getElementById('client' + indice).innerHTML = clientServi;
   }
-  updateNote(indice, note){
+
+  updateNote(indice, note) {
     document.getElementById('score' + indice).innerHTML = 'Score : ' + note;
   }
 };
+
