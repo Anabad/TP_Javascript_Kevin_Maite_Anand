@@ -20,10 +20,22 @@ module.exports = class Horaire {
     }
     return test;
   }
-  afficherHoraire() {
-    console.log('Les horaires sont');
-    for (var i = 0; i < this.debut.length; i++) {
-      console.log(this.debut[i] + ' - ' + this.fin[i]);
+
+  nombreHeureFermeture() {
+    var heuresFermeture = this.debut[0];
+    for (var i = 0; i < this.debut.length - 1; i++) {
+      heuresFermeture += this.debut[i + 1] - this.fin[i];
     }
+    heuresFermeture += 24 - this.fin[this.fin.length - 1];
+    return heuresFermeture;
   }
+
+  /*
+   afficherHoraire() {
+   console.log('Les horaires sont');
+   for (var i = 0; i < this.debut.length; i++) {
+   console.log(this.debut[i] + ' - ' + this.fin[i]);
+   }
+   }
+   */
 };

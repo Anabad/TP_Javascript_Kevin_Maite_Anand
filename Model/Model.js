@@ -63,8 +63,11 @@ module.exports = class Model {
     this.event.on('clientServi', (indice, clientServi) => {
       this.view.updateClientServi(indice, clientServi);
     });
-    this.event.on('noter', (indice, note) => {
-      this.view.updateNote(indice, note);
+    this.event.on('scorer', (indice, score) => {
+      this.view.updateScore(indice, score);
+    });
+    this.event.on('scorerJournalier', (indice, score) => {
+      this.view.updateScoreJournalier(indice, score);
     });
     this.event.on('play', () => {
       console.log('Play');
@@ -85,7 +88,7 @@ module.exports = class Model {
   afficherRestaurantStatut() {
     for (var i = 0; i < this.restaurants.length; i++) {
       console.log('Le restaurant ' + i + ' est ' +
-          this.restaurants[i].getStatut());
+        this.restaurants[i].getStatut());
     }
   }
 };

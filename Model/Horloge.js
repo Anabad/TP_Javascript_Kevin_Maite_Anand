@@ -22,6 +22,9 @@ module.exports = class Horloge {
     if (this.minute === 0) {
       this.heure = (this.heure + 1) % 24;
       this.signal.emit('Heure', this.heure);
+      if (this.heure === 0) {
+        this.signal.emit('Jour', this.heure);
+      }
     }
     return this.minute;
   }

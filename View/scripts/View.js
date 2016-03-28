@@ -115,8 +115,11 @@ module.exports = class View {
     document.getElementById('client' + indice).innerHTML = clientServi;
   }
 
-  updateNote(indice, note) {
-    document.getElementById('score' + indice).innerHTML = 'Score : ' + note;
+  updateScoreJournalier(indice, score) {
+    document.getElementById('scoreJournalier' + indice).innerHTML = 'Score : ' + score;
+  }
+  updateScore(indice, score) {
+    document.getElementById('score' + indice).innerHTML = 'Score : ' + score;
   }
 };
 

@@ -74,7 +74,7 @@ body {
   margin-left:5%;
   padding: 20px;
   border-radius: 6px;
-  box-shaddow: 6px 6px 5px; #999999;
+  box-shaddow: 6px 6px 5px #999999;
   background-color: rgba(0, 0, 0, 0);
   outline: none;
 }
