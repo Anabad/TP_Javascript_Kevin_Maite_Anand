@@ -1,11 +1,12 @@
 'use strict';
 
 const getRandom = require('./fonctionsUtiles').getRandom;
-const CST =require('./Constantes');
+const CST = require('./Constantes');
 
 module.exports = class Client {
   constructor() {
-    this.seuilDeResistance = getRandom(CST.SEUIL_RESISTANCE_MIN, CST.SEUIL_RESISTANCE_MAX);
+    this.seuilDeResistance = getRandom(CST.SEUIL_RESISTANCE_MIN,
+        CST.SEUIL_RESISTANCE_MAX);
     this.attente = 0;
   }
 

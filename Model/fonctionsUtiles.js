@@ -8,7 +8,7 @@ var getRandom = function(min, max) {
 var creationTableau = function(taille, valeur) {
   var tab = new Array(taille);
   for (var i = 0; i < tab.length; i++) {
-    tab[i]=valeur;
+    tab[i] = valeur;
   }
   return tab;
 };

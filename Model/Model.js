@@ -6,7 +6,6 @@ const Client = require('./Client');
 const MarcherRungis = require('./MarcherRungis');
 const Horaire = require('./Horaire');
 const getRandom = require('./fonctionsUtiles').getRandom;
-const Event = require('./Event');
 
 var CST = require('./Constantes');
 
@@ -46,8 +45,7 @@ module.exports = class Model {
       if (this.restaurants[restaurant].getStatut() == 'Ouvert') {
         this.restaurants[restaurant].servirClient(client);
       }
-    }
-    else {
+    } else {
       setTimeout(()=> {
         this.repartirClient(client);
       }, CST.TEMPS_ATTENTE);
@@ -56,7 +54,8 @@ module.exports = class Model {
 
   connectionEvent() {
     this.event.on('updateIngredient', (indice) => {
-      this.view.updateIngredient(indice, this.restaurants[indice].stock.ingredients);
+      this.view.updateIngredient(indice,
+        this.restaurants[indice].stock.ingredients);
     });
     this.event.on('updateStatut', (indice, statut) => {
       this.view.updateStatut(indice, statut);
@@ -85,7 +84,8 @@ module.exports = class Model {
 
   afficherRestaurantStatut() {
     for (var i = 0; i < this.restaurants.length; i++) {
-      console.log('Le restaurant ' + i + ' est ' + this.restaurants[i].getStatut());
+      console.log('Le restaurant ' + i + ' est ' +
+          this.restaurants[i].getStatut());
     }
   }
 };
