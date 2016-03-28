@@ -16,7 +16,7 @@ module.exports = class Restaurant {
     this.recettes = this.creerRecette();
     this.horaireRestaurateur = horaire;
     this.stock = new Stock(this.indice);
-    this._statut = "Fermé";
+    this._statut = 'Fermé';
     this._servi = 0;
     this._note = 0;
     this.horloge.signal.on('Heure', (heure) => {
@@ -80,17 +80,17 @@ module.exports = class Restaurant {
 
   possibiliterServir(heure) {
     if (!this.horaireRestaurateur.estOuvert(heure)) {
-      this.statut("Fermé");
+      this.statut('Fermé');
       return false;
     }
     for (var i = 0; i < this.recettes.length; i++) {
-      if (this.stock.resteAssezIngredient(this.recettes[i], "Recette")) {
-        this.statut("Ouvert");
+      if (this.stock.resteAssezIngredient(this.recettes[i], 'Recette')) {
+        this.statut('Ouvert');
         return true;
       }
     }
-    console.log("PAS DE RECETTE");
-    this.statut("Fermé");
+    console.log('PAS DE RECETTE');
+    this.statut('Fermé');
     return false;
   }
 
@@ -116,11 +116,11 @@ module.exports = class Restaurant {
   }
 
   afficherRecettes() {
-    console.log("AFFICHER RECETTES");
-    console.log("Il y a " + this.recettes.length + " recette");
+    console.log('AFFICHER RECETTES');
+    console.log('Il y a ' + this.recettes.length + ' recette');
     for (var i = 0; i < this.recettes.length; i++) {
       for (var j = 0; j < this.recettes[i].length; j++) {
-        console.log("Ingredient " + (j + 1) + " : " + this.recettes[i][j]);
+        console.log('Ingredient ' + (j + 1) + ' : ' + this.recettes[i][j]);
       }
     }
   }

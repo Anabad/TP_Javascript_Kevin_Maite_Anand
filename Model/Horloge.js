@@ -19,7 +19,7 @@ module.exports = class Horloge {
 
   modifierDate() {
     this.minute = (this.minute + 1) % CST.NOMBRE_MINUTE_HEURE;
-    if (this.minute == 0) {
+    if (this.minute === 0) {
       this.heure = (this.heure + 1) % 24;
       this.signal.emit('Heure', this.heure);
     }

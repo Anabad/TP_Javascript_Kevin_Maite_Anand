@@ -19,12 +19,12 @@ module.exports = class Stock {
     this.ingredients = this.initialiserIngredient();
     this.event.on('updateIngredient', (indice) => {
       if (!this.resteAssezIngredient(null, null)) {
-        this.statut("DistribuerRavitailler");
+        this.statut('DistribuerRavitailler');
       }
     });
     this.event.on('Marcher', (statut) => {
       this.statutMarcher = statut;
-      if (this.statutMarcher == 'Ouvert' && this._statut == "DistribuerRavitailler" && this.etatRavitaillement == 0) {
+      if (this.statutMarcher == 'Ouvert' && this._statut == 'DistribuerRavitailler' && this.etatRavitaillement === 0) {
         this.ravitaillement();
       }
     });
@@ -32,7 +32,7 @@ module.exports = class Stock {
   statut(statut){
     if(this._statut != statut) {
       this._statut = statut;
-      if (this._statut == "DistribuerRavitailler") {
+      if (this._statut == 'DistribuerRavitailler') {
         this.ravitaillement();
       }
     }
@@ -88,8 +88,8 @@ module.exports = class Stock {
         }
       }
     } else if (option == 'Recette') {
-      for ( i = 0; i < test.length; i++) {
-        if (test[i] == 1 && this.ingredients[i] == 0) {
+        for (var j = 0; j < test.length; j++) {
+         if (test[j] == 1 && this.ingredients[j] === 0) {
           return false;
         }
       }

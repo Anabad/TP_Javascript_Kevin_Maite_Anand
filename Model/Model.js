@@ -41,15 +41,15 @@ module.exports = class Model {
   }
 
   repartirClient(client) {
-    if (this.restaurants.length != 0) {
+    if (this.restaurants.length !== 0) {
       var restaurant = getRandom(0, this.restaurants.length - 1);
-      if (this.restaurants[restaurant].getStatut() == "Ouvert") {
+      if (this.restaurants[restaurant].getStatut() == 'Ouvert') {
         this.restaurants[restaurant].servirClient(client);
       }
     }
     else {
       setTimeout(()=> {
-        this.repartirClient(client)
+        this.repartirClient(client);
       }, CST.TEMPS_ATTENTE);
     }
   }
@@ -68,13 +68,13 @@ module.exports = class Model {
       this.view.updateNote(indice, note);
     });
     this.event.on('play', () => {
-      console.log("Play");
+      console.log('Play');
     });
     this.event.on('pause', () => {
-      console.log("Pause");
+      console.log('Pause');
     });
     this.event.on('stop', () => {
-      console.log("stop");
+      console.log('stop');
     });
     this.horloge.signal.on('Minute', (heure, minute) => {
       this.creationClient();
