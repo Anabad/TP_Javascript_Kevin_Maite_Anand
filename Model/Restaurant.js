@@ -5,7 +5,6 @@ const Client = require('./Client');
 const Stock = require('./Stock');
 const getRandom = require('./fonctionsUtiles').getRandom;
 const CST = require('./Constantes');
-var Event = require('./Event');
 
 module.exports = class Restaurant {
   constructor(indice, horaire) {

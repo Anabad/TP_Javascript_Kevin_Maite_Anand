@@ -34,6 +34,7 @@ module.exports = class View {
     html = html.concat('</tr>');
     html = html.concat('</thead>');
     html = html.concat('</table>');
+
     for (var i = 0; i < CST.NOMBRE_DE_RESTAURANT; i++) {
       html = html.concat('<div id="unite">');
       html = html.concat('<table id="restaurant">');
