@@ -5,7 +5,7 @@ const Client = require('./Client');
 const Stock = require('./Stock');
 const getRandom = require('./fonctionsUtiles').getRandom;
 const CST = require('./Constantes');
-
+var Event = require('./Event');
 
 module.exports = class Restaurant {
   constructor(indice, horaire) {
@@ -20,14 +20,14 @@ module.exports = class Restaurant {
     this._score = 0;
     this._scoreJournalier = 0;
     this.horloge.signal.on('Heure', (heure) => {
-      this.possibiliterServir(heure);
+      this.possibiliteServir(heure);
     });
     this.horloge.signal.on('Jour', () => {
       this._scoreJournalier = 0;
       this.event.emit('scorerJournalier', this.indice, this._scoreJournalier);
     });
     this.event.on('updateIngredient', () => {
-      this.possibiliterServir(this.horloge.heure);
+      this.possibiliteServir(this.horloge.heure);
     });
 
   }
@@ -51,13 +51,14 @@ module.exports = class Restaurant {
   scorer(score) {
     this._score += score;
     this.event.emit('scorer', this.indice, this._score);
+    return true;
   }
 
   scorerJournalier(score) {
     this._scoreJournalier +=
       score * this.horaireRestaurateur.nombreHeureFermeture();
     this.event.emit('scorerJournalier', this.indice, this._scoreJournalier);
-    this.scorer(score * this.horaireRestaurateur.nombreHeureFermeture());
+    return this.scorer(score * this.horaireRestaurateur.nombreHeureFermeture());
   }
 
   creerRecette() {
@@ -95,7 +96,7 @@ module.exports = class Restaurant {
     return repasDispo;
   }
 
-  possibiliterServir(heure) {
+  possibiliteServir(heure) {
     if (!this.horaireRestaurateur.estOuvert(heure)) {
       this.statut('Fermé');
       return false;
@@ -106,7 +107,6 @@ module.exports = class Restaurant {
         return true;
       }
     }
-    console.log('PAS DE RECETTE');
     this.statut('Fermé');
     return false;
   }

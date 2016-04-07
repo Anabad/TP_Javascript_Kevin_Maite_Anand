@@ -2,8 +2,9 @@
 
 let usefulFunctions = require('./fonctionsUtiles');
 const creationTableau = usefulFunctions.creationTableau;
-const getRandom = usefulFunctions.getRandom;
+const getRandom = usefulFunctions.getRandom
 usefulFunctions = null;
+var Event = require('./Event');
 const CST = require('./Constantes');
 
 module.exports = class Stock {
@@ -33,9 +34,10 @@ module.exports = class Stock {
     if (this._statut != statut) {
       this._statut = statut;
       if (this._statut == 'DistribuerRavitailler') {
-        this.ravitaillement();
+        return this.ravitaillement();
       }
     }
+    return 0;
   }
 
   /**
@@ -59,9 +61,11 @@ module.exports = class Stock {
         this.statut('Distribuer');
         this.event.emit('updateIngredient', this.indiceRestaurant);
         this.etatRavitaillement = 0;
+        done();
       }, getRandom(CST.TEMPS_ATTENTE_MIN_RAVITAILLEMENT,
         CST.TEMPS_ATTENTE_MAX_RAVITAILLEMENT));
     }
+    return 1;
   }
 
   /**
