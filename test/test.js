@@ -56,6 +56,7 @@ describe('Client', () => {
     });
   });
 });
+/*
 describe('Stock', () => {
   var testStock = new Stock();
   describe('#statut(statut)', () => {
@@ -93,7 +94,7 @@ describe('Stock', () => {
       testTab.should.deep.equal(expected);
     });
   });
-  /*describe('#ravitaillement()',()=>{
+    describe('#ravitaillement()',()=>{
     var testStock = new Stock();
     it(`should set all values of ingredient to ${CST.STOCK_DESIRE}`,(done)=>{
       for (i = 0; i< testStock.ingredients.length;i++) {
@@ -106,7 +107,7 @@ describe('Stock', () => {
         testStock.ingredients[i].should.equal(CST.STOCK_DESIRE);
       }
     });
-  });*/
+  });
   describe('#resteAssezIngredient(test,option)',()=>{
     it(`should return true when all elements are above ${CST.SEUIL_CRITIQUE}`,()=>{
       testStock.initialiserIngredient();
@@ -150,6 +151,7 @@ describe('Stock', () => {
     });
   });
 });
+*/
 describe('fonctionsUtiles',()=>{
   describe('#getRandom(min,max)',()=>{
     it('should return a number',()=>{
@@ -247,6 +249,7 @@ describe('Horaire',()=>{
     });
   });
 });
+/*
 describe('Restaurant', ()=> {
   var testRestaurant = new Restaurant(0,new Horaire([6],[21]));
   describe('#statut(statut)',()=>{
@@ -401,3 +404,4 @@ describe('Restaurant', ()=> {
     });
   });
 });
+*/
